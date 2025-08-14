@@ -55,6 +55,3 @@ $ jot "Finished reading a book"
 ## License
 MIT License
 
-## 
-
-The files in this READMe
