@@ -2,6 +2,8 @@
 
 Jot is a minimal, cross-platform Python command-line tool for quickly logging daily activities or notes with a timestamp. It prepends each entry with the current date and time (`[YYYY-MM-DD HH:MM]`) to a user-configurable text file.
 
+*Note: This project was generated with assistance from OpenAI's ChatGPT.*
+
 ## Features
 - Simple CLI interface.
 - Persistent configuration of the text file path.
@@ -52,3 +54,7 @@ $ jot "Finished reading a book"
 
 ## License
 MIT License
+
+## 
+
+The files in this READMe
