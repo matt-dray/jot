@@ -19,14 +19,29 @@ Jot is a minimal, cross-platform Python command-line tool for quickly logging da
    ```
 3. Install locally in editable mode:
    ```bash
-   pip install --user --editable .
+   pip3 install --user --editable .
    ```
    - This will also install the `rich` library.
-4. Make sure your scripts folder is in your PATH (for macOS/Linux):
-   ```bash
-   export PATH="$HOME/.local/bin:$PATH"
-   echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-   ```
+4. Make sure your scripts folder is in your PATH:
+   - **macOS/Linux**:
+     ```bash
+     export PATH="$HOME/.local/bin:$PATH"
+     echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+     ```
+   - **Windows**:
+     If you installed with `pip3 install --user`, the executable will usually be in:
+     ```
+     %APPDATA%\Python\Python312\Scripts
+     ```
+     *(replace `Python312` with your Python version)*
+
+     To add it to your PATH:
+     1. Press `Win + R`, type `sysdm.cpl`, and press Enter.
+     2. Go to **Advanced** → **Environment Variables**.
+     3. Under **User variables**, select **Path** and click **Edit**.
+     4. Click **New** and paste the Scripts folder path above.
+     5. Click OK on all dialogs.
+     6. Restart your terminal or Command Prompt.
 
 ## Usage
 
@@ -41,7 +56,7 @@ The first time you run it, you will be prompted to provide a path to the text fi
 Example:
 ```bash
 $ jot "Finished reading a book"
-[green]Prepended to /Users/username/journal.txt:[/green] [2025-08-14 10:30] Finished reading a book
+Prepended to /Users/username/journal.txt: [2025-08-14 10:30] Finished reading a book
 ```
 
 ## Notes
@@ -54,4 +69,3 @@ $ jot "Finished reading a book"
 
 ## License
 MIT License
-
