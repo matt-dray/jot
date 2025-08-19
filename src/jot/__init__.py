@@ -8,7 +8,7 @@ def main():
     # Set up parser
     parser = argparse.ArgumentParser(
         prog = "jot",
-        description = "Minimal Python CLI to jot timestamped thoughts."
+        description = "Minimal opinionated Python CLI to jot timestamped thoughts."
     )
     parser.add_argument("text", help = "Text to write to file.", type = str)
     args = parser.parse_args()
