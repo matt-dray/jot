@@ -7,9 +7,7 @@ Minimal opinionated Python CLI to jot timestamped thoughts.
 ## Install
 
 1. Install [uv](https://docs.astral.sh/uv/).
-2. `git clone` this repo.
-3. Navigate with `cd path/to/cloned/repo`.
-4. Install with `uv tool install . -e`.
+2. In a terminal run `uv tool install git+https://github.com/matt-dray/jot`
 
 ## Use
 
