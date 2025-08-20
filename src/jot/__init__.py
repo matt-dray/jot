@@ -14,7 +14,7 @@ def main():
     args = parser.parse_args()
 
     # Read/write config file
-    config_path = Path.home()/".jot_config.json"
+    config_path = Path.home()/".jot-config.json"
     if config_path.exists():
         jot_path = json.loads(config_path.read_text())["JOT_PATH"]
     else:
