@@ -19,8 +19,8 @@ def main():
         jot_path = json.loads(config_path.read_text())["JOT_PATH"]
     else:
         # Receive user input
-        jot_path_user = input("Full text file path: ")
-        jot_path = Path(jot_path_user)
+        jot_path_user = input("Path to text file: ")
+        jot_path = Path(jot_path_user).expanduser()
         jot_path.touch()
         # Write to config
         config_file = open(config_path, mode = "w")
