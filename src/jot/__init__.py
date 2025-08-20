@@ -25,7 +25,7 @@ def main():
         # Write to config
         config_file = open(config_path, mode = "w")
         try:
-            json_dict = {"JOT_PATH": str(jot_path)}
+            json_dict = {"JOT_PATH": jot_path.as_posix()}
             json_string = json.dumps(json_dict)
             config_file.write(json_string)
             print(f"Config file written to {config_path}")
