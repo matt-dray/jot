@@ -1,15 +1,21 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "jot"
-version = "0.1.0"
-description = "Minimal cross-platform Python CLI for journaling with persistent file path"
-requires-python = ">=3.8"
+version = "0.2.0"
+description = "Minimal opinionated Python CLI to jot timestamped thoughts."
+readme = "README.md"
+authors = [
+    { name = "Matt Dray", email = "mwdray@gmail.com" }
+]
+requires-python = ">=3.9"
 dependencies = [
-    "rich>=13.0"
+    "argparse>=1.4.0",
+    "datetime>=5.5",
+    "pathlib>=1.0.1",
 ]
 
 [project.scripts]
 jot = "jot:main"
+
+[build-system]
+requires = ["uv_build>=0.8.8,<0.9.0"]
+build-backend = "uv_build"

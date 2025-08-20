@@ -1,32 +1,17 @@
-# Byte-compiled / optimized / DLL files
+# Python-generated files
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Distribution / packaging
+*.py[oc]
 build/
 dist/
-*.egg-info/
-.eggs/
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+wheels/
+*.egg-info
 
 # Virtual environments
-venv/
-.env/
-.env.*
+.venv
 
-# IDE / Editor settings
-.vscode/
-.idea/
-*.sublime-workspace
-*.sublime-project
-
-# OS generated files
+# OS related
 .DS_Store
-Thumbs.db
 
-# Jot configuration file
-.jot_config.json
+# README related
+README.html
+README_files/
