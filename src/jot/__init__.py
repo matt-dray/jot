@@ -20,36 +20,25 @@ def get_jot_path(config_path):
 
 def write_to_config(config_path, jot_path):
     """Write the jot file path to the config file."""
-    config_file = open(config_path, mode="w")
-    try:
-        json_dict = {"JOT_PATH": jot_path.as_posix()}
-        json_string = json.dumps(json_dict)
-        config_file.write(json_string)
-        print(f"Config file written to {config_path}")
-        print(f"Text file path set to {jot_path}")
-    finally:
-        config_file.close()
+    json_dict = {"JOT_PATH": jot_path.as_posix()}
+    with config_path.open("w") as f:
+        json.dump(json_dict, f)
+    print(f"Config file written to {config_path}")
+    print(f"Text file path set to {jot_path}")
 
 
 def prepend_jotting(jot_path, args):
     """Prepend a new jotting with a timestamp to the jot file."""
 
-    # Read existing jottings
-    jot_file = open(jot_path, mode="r")
-    try:
-        jot_file_content = jot_file.read()
-    finally:
-        jot_file.close()
+    jot_file_content = ""
+    if jot_path.exists():
+        with jot_path.open("r") as f:
+            jot_file_content = f.read()
 
-    # Prepend new jotting
-    jot_file = open(jot_path, mode="w")
-    try:
-        timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
-        # Prepend to file
-        jot_file.write(f"{timestamp} {args.text}\n{jot_file_content}")
-        print(f'Wrote "{args.text}" to {jot_path}')
-    finally:
-        jot_file.close()
+    timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
+    with jot_path.open("w") as f:
+        f.write(f"{timestamp} {args.text}\n{jot_file_content}")
+    print(f'Wrote "{args.text}" to {jot_path}')
 
 
 def generate_jot():
