@@ -5,11 +5,13 @@ from pathlib import Path
 
 
 def build_config_path(json_path=".jot-config.json"):
+    """Return the path to the config file in the user's home directory."""
     config_path = Path.home() / json_path
     return config_path
 
 
 def get_jot_path(config_path):
+    """Load the jot file path from the config file."""
     config_text = config_path.read_text()
     config_json = json.loads(config_text)
     jot_path = config_json["JOT_PATH"]
@@ -17,6 +19,7 @@ def get_jot_path(config_path):
 
 
 def write_to_config(config_path, jot_path):
+    """Write the jot file path to the config file."""
     config_file = open(config_path, mode="w")
     try:
         json_dict = {"JOT_PATH": jot_path.as_posix()}
@@ -29,6 +32,7 @@ def write_to_config(config_path, jot_path):
 
 
 def prepend_jotting(jot_path, args):
+    """Prepend a new jotting with a timestamp to the jot file."""
 
     # Read existing jottings
     jot_file = open(jot_path, mode="r")
@@ -49,6 +53,7 @@ def prepend_jotting(jot_path, args):
 
 
 def generate_jot():
+    """Prompt the user for a jot file path and create it."""
     jot_path_user = input("Path to text file: ")
     jot_path = Path(jot_path_user).expanduser()
     jot_path.touch()
@@ -56,7 +61,7 @@ def generate_jot():
 
 
 def main():
-
+    """CLI entry point for jot."""
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
