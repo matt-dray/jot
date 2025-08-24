@@ -14,7 +14,8 @@ def get_jot_path(config_path):
     """Load the jot file path from the config file."""
     config_text = config_path.read_text()
     config_json = json.loads(config_text)
-    jot_path = config_json["JOT_PATH"]
+    jot_path_text = config_json["JOT_PATH"]
+    jot_path = Path(jot_path_text)
     return jot_path
 
 
