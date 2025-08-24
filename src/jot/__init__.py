@@ -44,7 +44,7 @@ def prepend_jotting(jot_path, args):
 def generate_jot():
     """Prompt the user for a jot file path and create it."""
     jot_path_user = input("Path to text file: ")
-    jot_path = Path(jot_path_user).expanduser()
+    jot_path = Path(jot_path_user).expanduser().resolve()
     jot_path.touch()
     return jot_path
 
