@@ -15,3 +15,7 @@ wheels/
 # README related
 README.html
 README_files/
+
+# Potential jot-related files
+*.txt
+.jot-config.json

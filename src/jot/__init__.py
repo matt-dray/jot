@@ -1,54 +1,74 @@
+import argparse
+import datetime as dt
+import json
+from pathlib import Path
+
+
+def build_config_path(json_path=".jot-config.json"):
+    """Return the path to the config file in the user's home directory."""
+    config_path = Path.home() / json_path
+    return config_path
+
+
+def get_jot_path(config_path):
+    """Load the jot file path from the config file."""
+    config_text = config_path.read_text()
+    config_json = json.loads(config_text)
+    jot_path_text = config_json["JOT_PATH"]
+    jot_path = Path(jot_path_text)
+    return jot_path
+
+
+def write_to_config(config_path, jot_path):
+    """Write the jot file path to the config file."""
+    json_dict = {"JOT_PATH": jot_path.as_posix()}
+    with config_path.open("w") as f:
+        json.dump(json_dict, f)
+    print(f"Config file written to {config_path}")
+    print(f"Text file path set to {jot_path}")
+
+
+def prepend_jotting(jot_path, args):
+    """Prepend a new jotting with a timestamp to the jot file."""
+
+    jot_file_content = ""
+    if jot_path.exists():
+        with jot_path.open("r") as f:
+            jot_file_content = f.read()
+
+    timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
+    with jot_path.open("w") as f:
+        f.write(f"{timestamp} {args.text}\n{jot_file_content}")
+    print(f'Wrote "{args.text}" to {jot_path}')
+
+
+def generate_jot():
+    """Prompt the user for a jot file path and create it."""
+    jot_path_user = input("Path to text file: ")
+    jot_path = Path(jot_path_user).expanduser().resolve()
+    jot_path.touch()
+    return jot_path
+
+
 def main():
-
-    import argparse
-    import datetime as dt
-    import json
-    from pathlib import Path
-
-    # Set up parser
+    """CLI entry point for jot."""
     parser = argparse.ArgumentParser(
-        prog = "jot",
-        description = "Minimal opinionated Python CLI to jot timestamped thoughts."
+        prog="jot",
+        description="Minimal opinionated Python CLI to jot timestamped thoughts.",
     )
-    parser.add_argument("text", help = "Text to write to file.", type = str)
+    parser.add_argument("text", help="Text to write to file.", type=str)
     args = parser.parse_args()
 
-    # Read/write config file
-    config_path = Path.home()/".jot-config.json"
+    config_path = build_config_path()
+
     if config_path.exists():
-        jot_path = json.loads(config_path.read_text())["JOT_PATH"]
+        jot_path = get_jot_path(config_path)
     else:
-        # Receive user input
-        jot_path_user = input("Path to text file: ")
-        jot_path = Path(jot_path_user).expanduser()
-        jot_path.touch()
-        # Write to config
-        config_file = open(config_path, mode = "w")
-        try:
-            json_dict = {"JOT_PATH": jot_path.as_posix()}
-            json_string = json.dumps(json_dict)
-            config_file.write(json_string)
-            print(f"Config file written to {config_path}")
-            print(f"Text file path set to {jot_path}")
-        finally:
-            config_file.close()
+        jot_path = generate_jot()
+        write_to_config(config_path, jot_path)
 
-    # Read existing jottings
-    jot_file = open(jot_path, mode = "r")
-    try:
-        jot_file_content = jot_file.read()
-    finally:
-        jot_file.close()
+    prepend_jotting(jot_path, args)
 
-    # Prepend new jotting
-    jot_file = open(jot_path, mode = "w")
-    try:
-        timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
-        # Prepend to file
-        jot_file.write(f"{timestamp} {args.text}\n{jot_file_content}")
-        print(f"Wrote \"{args.text}\" to {jot_path}")
-    finally:
-        jot_file.close()
 
 if __name__ == "__main__":
     main()
