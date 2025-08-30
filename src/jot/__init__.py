@@ -2,6 +2,7 @@ import argparse
 import datetime as dt
 import json
 from pathlib import Path
+import re
 
 
 def build_config_path(json_path=".jot-config.json"):
@@ -64,12 +65,24 @@ def list_jottings(jot_path, n=None):
         print(line)
 
 
+def search_jottings(jot_path, search_term):
+    """Search for a term in your jottings (regular expressions supported)."""
+    if not jot_path.exists():
+        print("No jottings yet. Try 'jot hello'.")
+        return
+
+    with open(jot_path) as f:
+        lines = [line.rstrip("\n") for line in f]
+    matching_lines = filter(lambda x: re.search(search_term, x), lines)
+    return list(matching_lines)
+
+
 def main():
     """CLI entry point for jot."""
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
-        epilog="https://github.com/matt-dray/jot",
+        epilog="Source: https://github.com/matt-dray/jot",
     )
     parser.add_argument(
         "text",
@@ -78,7 +91,14 @@ def main():
         help="text to write to file",
     )
     parser.add_argument(
-        "-l", "--list", nargs="?", type=int, const=0, help="list last n jottings"
+        "-l", "--list", nargs="?", type=int, const=0, help="show last n jottings"
+    )
+    parser.add_argument(
+        "-s",
+        "--search",
+        nargs="?",
+        type=str,
+        help="search jottings (regex supported)",
     )
     args = parser.parse_args()
 
@@ -93,6 +113,8 @@ def main():
     if args.list is not None:
         n = None if args.list == 0 else args.list
         list_jottings(jot_path, n)
+    elif args.search:
+        search_jottings(jot_path, args.search)
     elif args.text:
         write_jotting(jot_path, args)
     else:
