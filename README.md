@@ -15,7 +15,7 @@ To update: `uv update jot`.
 
 ## Use
 
-### Add jottings
+### Write
 
 Open a terminal and write a jotting:
 
@@ -29,14 +29,14 @@ Each jotting is prepended to the text file in the form `[YYYY-MM-DD HH:MM] ate a
 
 ### Options
 
-Use the `--list` or `-l` flag to show the last _n_ jottings:
+Other options are to use the:
 
-```bash
-jot -l 5
-```
+* `--help` or `-h` flag for documentation, like `jot -h`
+* `--list` or `-l` flag to show the last _n_ jottings, like `jot -l 5`
+* `--search` or `-s` flag to search your jottings for a given term, like `jot -s "apple"` (regular expressions supported)
 
 ## Notes
 
 * Developed to help me remember the tasks I've done during my day job.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
-* [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, v0.2.0 rewritten with my brain.
+* [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, v0.2.0 rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).
