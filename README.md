@@ -6,6 +6,8 @@ posts](https://img.shields.io/badge/rostrum.blog-posts-008900?labelColor=000000&
 
 Minimal opinionated Python CLI to jot timestamped thoughts.
 
+<img src='https://www.rostrum.blog/posts/2025-08-30-jot-options/resources/jot.png' width='300px' alt='Terribly drawn image of the word "jot" in cursive with a pencil at the end of the letter "t". The dot of the letter "i" is a red love heart.'>
+
 ## Install
 
 1. Install [uv](https://docs.astral.sh/uv/).
