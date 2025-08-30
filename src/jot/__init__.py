@@ -50,7 +50,7 @@ def generate_jot():
     return jot_path
 
 
-def list_jottings(jot_path, n=3):
+def list_jottings(jot_path, n):
     """Print the last n jottings from the jot file."""
     if not jot_path.exists():
         print("No jottings yet. Try 'jot hello'.")
@@ -88,6 +88,7 @@ def main():
         write_to_config(config_path, jot_path)
 
     if args.list is not None:
+        n = 5 if args.list == 0 else args.list 
         list_jottings(jot_path, n)
     elif args.text:
         write_jotting(jot_path, args)
