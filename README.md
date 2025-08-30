@@ -39,4 +39,4 @@ Other options are to use the:
 
 * Developed to help me remember the tasks I've done during my day job.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
-* [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, v0.2.0 rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).
+* [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, [v0.2.0](https://github.com/matt-dray/jot/compare/v0.1.0...v0.2.0) rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).
