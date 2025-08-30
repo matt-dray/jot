@@ -25,15 +25,15 @@ jot "ate an apple"
 
 The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The (resolved, absolute and POSIX-standardised) file path will be stored under the `JOT_PATH` key in a `jot_config.json` file saved to your computer's home folder.
 
-Each jotting is prepended to the text file in the form `[YYYY-MM-DD HH:MM] ate an apple`.
+Each jotting is prepended to the text file in the form `[2025-08-25 11:15] ate an apple`.
 
 ### Options
 
 Other options are to use the:
 
-* `--help` or `-h` flag for documentation, like `jot -h`
-* `--list` or `-l` flag to show the last _n_ jottings, like `jot -l 5`
-* `--search` or `-s` flag to search your jottings for a given term, like `jot -s "apple"` (regular expressions supported)
+* `--help` or `-h` flags for documentation, like `jot -h`
+* `--list` or `-l` flags to show the last _n_ jottings, like `jot -l 5`
+* `--search` or `-s` flags to search your jottings for a given term, like `jot -s "apple"` or with a regular expression like `jot -s "2025-08-2([5-9]).*apple"`
 
 ## Notes
 
