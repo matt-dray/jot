@@ -88,7 +88,7 @@ def main():
         write_to_config(config_path, jot_path)
 
     if args.list is not None:
-        list_jottings(jot_path, limit)
+        list_jottings(jot_path, n)
     elif args.text:
         write_jotting(jot_path, args)
     else:
