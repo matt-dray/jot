@@ -69,15 +69,16 @@ def main():
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
+        epilog="https://github.com/matt-dray/jot",
     )
     parser.add_argument(
         "text",
         nargs="?",
         type=str,
-        help="Text to write to file.",
+        help="text to write to file",
     )
     parser.add_argument(
-        "-l", "--list", nargs="?", type=int, const=0, help="List last n jottings."
+        "-l", "--list", nargs="?", type=int, const=0, help="list last n jottings"
     )
     args = parser.parse_args()
 
