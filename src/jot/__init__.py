@@ -74,7 +74,7 @@ def search_jottings(jot_path, search_term):
     with open(jot_path) as f:
         lines = [line.rstrip("\n") for line in f]
     matching_lines = filter(lambda x: re.search(search_term, x), lines)
-    return list(matching_lines)
+    print list(matching_lines)
 
 
 def main():
