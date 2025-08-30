@@ -1,6 +1,6 @@
 [project]
 name = "jot"
-version = "0.2.1"
+version = "0.2.2"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [

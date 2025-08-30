@@ -28,7 +28,7 @@ def write_to_config(config_path, jot_path):
     print(f"Text file path set to {jot_path}")
 
 
-def prepend_jotting(jot_path, args):
+def write_jotting(jot_path, args):
     """Prepend a new jotting with a timestamp to the jot file."""
 
     jot_file_content = ""
@@ -50,13 +50,36 @@ def generate_jot():
     return jot_path
 
 
+def list_jottings(jot_path, n=None):
+    """Print the last n jottings from the jot file."""
+    if not jot_path.exists():
+        print("No jottings yet. Try 'jot hello'.")
+        return
+
+    lines = jot_path.read_text().splitlines()
+    if n:
+        lines = lines[:n]
+
+    for line in lines:
+        print(line)
+
+
 def main():
     """CLI entry point for jot."""
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
+        epilog="https://github.com/matt-dray/jot",
     )
-    parser.add_argument("text", help="Text to write to file.", type=str)
+    parser.add_argument(
+        "text",
+        nargs="?",
+        type=str,
+        help="text to write to file",
+    )
+    parser.add_argument(
+        "-l", "--list", nargs="?", type=int, const=0, help="list last n jottings"
+    )
     args = parser.parse_args()
 
     config_path = build_config_path()
@@ -67,7 +90,13 @@ def main():
         jot_path = generate_jot()
         write_to_config(config_path, jot_path)
 
-    prepend_jotting(jot_path, args)
+    if args.list is not None:
+        n = None if args.list == 0 else args.list
+        list_jottings(jot_path, n)
+    elif args.text:
+        write_jotting(jot_path, args)
+    else:
+        parser.print_help()
 
 
 if __name__ == "__main__":
