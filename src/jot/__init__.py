@@ -1,5 +1,6 @@
 import argparse
 import datetime as dt
+from importlib.metadata import version
 import json
 from pathlib import Path
 import re
@@ -91,6 +92,7 @@ def main():
         type=str,
         help="text to write to file",
     )
+    parser.add_argument("-v", "--version", action="version", version=version("jot"))
     parser.add_argument(
         "-l", "--list", nargs="?", type=int, const=0, help="show last n jottings"
     )
