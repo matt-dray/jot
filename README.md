@@ -25,21 +25,21 @@ Open a terminal and write a jotting:
 jot "ate an apple"
 ```
 
-The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The (resolved, absolute and POSIX-standardised) file path will be stored under the `JOT_PATH` key in a `jot_config.json` file saved to your computer's home folder.
+The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The file path will be stored under the `JOT_PATH` key in a `jot_config.json` file saved to your computer's home folder.
 
 Each jotting is prepended to the text file in the form `[2025-08-25 11:15] ate an apple`.
 
 ### Options
 
-Other options are to use the:
+Append flags to your `jot` call:
 
-* `--help` or `-h` flags for documentation, like `jot -h`
-* `--version` or `-v` flags for the version number, like `jot -v`
-* `--list` or `-l` flags to show the last _n_ jottings, like `jot -l 5`
-* `--search` or `-s` flags to search your jottings for a given term, like `jot -s "apple"` or with a regular expression like `jot -s "2025-08-2([5-9]).*apple"`
+* `-h`/`--help` for help
+* `-v`/`--version` for the version number
+* `-l`/`--list` to show the last _n_ jottings, like `jot -l 7` (defaults to 10 if no value is provided)
+* `-s`/`--search` to search your jottings for a given term, like `jot -s "apple"` or with a regular expression like `jot -s "2025-08-2([5-9]).*apple"`
 
 ## Notes
 
-* Developed to help me remember the tasks I've done during my day job.
+* I developed this to help me remember the tasks I've done during my day job and later reflect.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
 * [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, [v0.2.0](https://github.com/matt-dray/jot/compare/v0.1.0...v0.2.0) rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).
