@@ -58,11 +58,14 @@ def list_jottings(jot_path, n=None):
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    lines = jot_path.read_text().splitlines()
-    if n:
-        lines = lines[:n]
+    lines = jot_path.read_text(encoding="utf-8").splitlines()
 
-    for line in lines:
+    if n is None:
+        lines_to_show = lines  # show all if None
+    else:
+        lines_to_show = lines[:n]
+
+    for line in lines_to_show:
         print(line)
 
 
@@ -84,7 +87,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
-        epilog="Source: https://github.com/matt-dray/jot",
+        epilog=f"Source: https://github.com/matt-dray/jot (v{version('jot')})",
     )
     parser.add_argument(
         "text",
@@ -94,7 +97,13 @@ def main():
     )
     parser.add_argument("-v", "--version", action="version", version=version("jot"))
     parser.add_argument(
-        "-l", "--list", nargs="?", type=int, const=0, help="show last n jottings"
+        "-l",
+        "--list",
+        nargs="?",
+        type=int,
+        const=10,
+        default=None,
+        help="show last n jottings (default 10)",
     )
     parser.add_argument(
         "-s",
@@ -114,8 +123,7 @@ def main():
         write_to_config(config_path, jot_path)
 
     if args.list is not None:
-        n = None if args.list == 0 else args.list
-        list_jottings(jot_path, n)
+        list_jottings(jot_path, args.list)
     elif args.search:
         search_jottings(jot_path, args.search)
     elif args.text:
