@@ -34,6 +34,7 @@ Each jotting is prepended to the text file in the form `[2025-08-25 11:15] ate a
 Other options are to use the:
 
 * `--help` or `-h` flags for documentation, like `jot -h`
+* `--version` or `-v` flags for the version number, like `jot -v`
 * `--list` or `-l` flags to show the last _n_ jottings, like `jot -l 5`
 * `--search` or `-s` flags to search your jottings for a given term, like `jot -s "apple"` or with a regular expression like `jot -s "2025-08-2([5-9]).*apple"`
 
