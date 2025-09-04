@@ -58,10 +58,10 @@ def list_jottings(jot_path, n=None):
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    lines = jot_path.read_text(encoding="utf-8").splitlines()
+    lines = jot_path.read_text().splitlines()
 
     if n is None:
-        lines_to_show = lines  # show all if None
+        lines_to_show = lines
     else:
         lines_to_show = lines[:n]
 
@@ -69,7 +69,7 @@ def list_jottings(jot_path, n=None):
         print(line)
 
 
-def search_jottings(jot_path, search_term):
+def search_jottings(jot_path, search_term, limit=None):
     """Search for a term in your jottings (regular expressions supported)."""
     if not jot_path.exists():
         print("No jottings yet. Try 'jot hello'.")
@@ -77,7 +77,11 @@ def search_jottings(jot_path, search_term):
 
     with open(jot_path) as f:
         lines = [line.rstrip("\n") for line in f]
-    matches = list(filter(lambda x: re.search(search_term, x), lines))
+    matches = [line for line in lines if re.search(search_term, line)]
+
+    if limit is not None:
+        matches = matches[:limit]
+
     for line in matches:
         print(line)
 
@@ -122,10 +126,10 @@ def main():
         jot_path = generate_jot()
         write_to_config(config_path, jot_path)
 
-    if args.list is not None:
+    if args.search:
+        search_jottings(jot_path, args.search, args.list)
+    elif args.list is not None:
         list_jottings(jot_path, args.list)
-    elif args.search:
-        search_jottings(jot_path, args.search)
     elif args.text:
         write_jotting(jot_path, args)
     else:
