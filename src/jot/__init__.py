@@ -24,7 +24,7 @@ def get_jot_path(config_path):
 def write_to_config(config_path, jot_path):
     """Write the jot file path to the config file."""
     json_dict = {"JOT_PATH": jot_path.as_posix()}
-    with config_path.open("w") as f:
+    with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
     print(f"Config file written to {config_path}")
     print(f"Text file path set to {jot_path}")
@@ -35,11 +35,11 @@ def write_jotting(jot_path, args):
 
     jot_file_content = ""
     if jot_path.exists():
-        with jot_path.open("r") as f:
+        with jot_path.open("r", encoding="utf-8") as f:
             jot_file_content = f.read()
 
     timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
-    with jot_path.open("w") as f:
+    with jot_path.open("w", encoding="utf-8") as f:
         f.write(f"{timestamp} {args.text}\n{jot_file_content}")
     print(f'Wrote "{args.text}" to {jot_path}')
 
@@ -75,7 +75,7 @@ def search_jottings(jot_path, search_term, limit=None):
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    with open(jot_path) as f:
+    with open(jot_path, encoding="utf-8") as f:
         lines = [line.rstrip("\n") for line in f]
     matches = [line for line in lines if re.search(search_term, line)]
 
