@@ -75,7 +75,7 @@ def search_jottings(jot_path, search_term, limit=None):
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    with open(jot_path, encoding="utf-8") as f:
+    with jot_path.open("r", encoding="utf-8") as f:
         lines = [line.rstrip("\n") for line in f]
     matches = [line for line in lines if re.search(search_term, line)]
 
