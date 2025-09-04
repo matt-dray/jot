@@ -24,7 +24,7 @@ def get_jot_path(config_path):
 def write_to_config(config_path, jot_path):
     """Write the jot file path to the config file."""
     json_dict = {"JOT_PATH": jot_path.as_posix()}
-    with config_path.open("w") as f:
+    with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
     print(f"Config file written to {config_path}")
     print(f"Text file path set to {jot_path}")
@@ -35,12 +35,13 @@ def write_jotting(jot_path, args):
 
     jot_file_content = ""
     if jot_path.exists():
-        with jot_path.open("r") as f:
+        with jot_path.open("r", encoding="utf-8") as f:
             jot_file_content = f.read()
 
     timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
-    with jot_path.open("w") as f:
-        f.write(f"{timestamp} {args.text}\n{jot_file_content}")
+    jot_path.write_text(
+        f"{timestamp} {args.text}\n{jot_file_content}", encoding="utf-8"
+    )
     print(f'Wrote "{args.text}" to {jot_path}')
 
 
@@ -58,10 +59,10 @@ def list_jottings(jot_path, n=None):
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    lines = jot_path.read_text(encoding="utf-8").splitlines()
+    lines = jot_path.read_text().splitlines()
 
     if n is None:
-        lines_to_show = lines  # show all if None
+        lines_to_show = lines
     else:
         lines_to_show = lines[:n]
 
@@ -69,15 +70,19 @@ def list_jottings(jot_path, n=None):
         print(line)
 
 
-def search_jottings(jot_path, search_term):
+def search_jottings(jot_path, search_term, limit=None):
     """Search for a term in your jottings (regular expressions supported)."""
     if not jot_path.exists():
         print("No jottings yet. Try 'jot hello'.")
         return
 
-    with open(jot_path) as f:
+    with jot_path.open("r", encoding="utf-8") as f:
         lines = [line.rstrip("\n") for line in f]
-    matches = list(filter(lambda x: re.search(search_term, x), lines))
+    matches = [line for line in lines if re.search(search_term, line)]
+
+    if limit is not None:
+        matches = matches[:limit]
+
     for line in matches:
         print(line)
 
@@ -87,7 +92,15 @@ def main():
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
-        epilog=f"Source: https://github.com/matt-dray/jot (v{version('jot')})",
+        epilog=(
+            "examples:\n"
+            "  jot 'ate an apple'    add a new jotting\n"
+            "  jot -l 5              show last 5 jottings\n"
+            "  jot -s apple          search for 'apple' in jottings\n"
+            "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
+            f"\nsource: https://github.com/matt-dray/jot (v{version('jot')})"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "text",
@@ -103,14 +116,16 @@ def main():
         type=int,
         const=10,
         default=None,
-        help="show last n jottings (default 10)",
+        help="show last n jottings (default 10 if no number), "
+        "combine with --search to limit results",
     )
     parser.add_argument(
         "-s",
         "--search",
         nargs="?",
         type=str,
-        help="search jottings (regex supported)",
+        help="search jottings (regex supported), "
+        "combine with --list to limit results",
     )
     args = parser.parse_args()
 
@@ -122,10 +137,10 @@ def main():
         jot_path = generate_jot()
         write_to_config(config_path, jot_path)
 
-    if args.list is not None:
+    if args.search:
+        search_jottings(jot_path, args.search, args.list)
+    elif args.list is not None:
         list_jottings(jot_path, args.list)
-    elif args.search:
-        search_jottings(jot_path, args.search)
     elif args.text:
         write_jotting(jot_path, args)
     else:
