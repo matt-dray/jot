@@ -93,7 +93,7 @@ def main():
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
         epilog=(
             "examples:\n"
-            "  jot 'ate an apple'    add a new jot\n"
+            "  jot 'ate an apple'    add a new jotting\n"
             "  jot -l 5              show last 5 jottings\n"
             "  jot -s apple          search for 'apple' in jottings\n"
             "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"

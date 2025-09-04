@@ -1,4 +1,4 @@
-# jot
+# jot <a href="https://www.github.com/matt-dray/jot"><img src='https://www.rostrum.blog/posts/2025-08-30-jot-options/resources/jot.png' height='200px' align='right' alt='Terribly drawn image of the word "jot" in cursive with a pencil at the end of the letter "t". The dot of the letter "i" is a red love heart.'></a>
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Blog
@@ -6,7 +6,7 @@ posts](https://img.shields.io/badge/rostrum.blog-posts-008900?labelColor=000000&
 
 Minimal opinionated Python CLI to jot timestamped thoughts.
 
-<img src='https://www.rostrum.blog/posts/2025-08-30-jot-options/resources/jot.png' width='300px' alt='Terribly drawn image of the word "jot" in cursive with a pencil at the end of the letter "t". The dot of the letter "i" is a red love heart.'>
+
 
 ## Install
 
@@ -31,12 +31,14 @@ Each jotting is prepended to the text file in the form `[2025-08-25 11:15] ate a
 
 ### Options
 
-Append flags to your `jot` call:
+You can append optional flags. For example:
 
-* `-h`/`--help` for help
-* `-v`/`--version` for the version number
-* `-l`/`--list` to show the last _n_ jottings, like `jot -l 7` (defaults to 10 if no value is provided)
-* `-s`/`--search` to search your jottings for a given term, like `jot -s "apple"` or with a regular expression like `jot -s "2025-08-2([5-9]).*apple"`
+* `jot -l 5` to show the last 5 jottings
+* `jot -s apple` to search for 'apple' in jottings
+* `jot -s apple -l 3` to search for 'apple' _and_ limit to 3 jottings
+* `jot -s "2025-08-2([5-9]).*apple"` to search with regex for 'apple' in a given work week
+* `jot -v` to get the version number
+* `jot -h` to show the help file
 
 ## Notes
 
