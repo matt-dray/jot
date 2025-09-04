@@ -91,7 +91,15 @@ def main():
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
-        epilog=f"Source: https://github.com/matt-dray/jot (v{version('jot')})",
+        epilog=(
+            "examples:\n"
+            "  jot 'ate an apple'    add a new jot\n"
+            "  jot -l 5              show last 5 jottings\n"
+            "  jot -s apple          search for 'apple' in jottings\n"
+            "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
+            f"\nsource: https://github.com/matt-dray/jot (v{version('jot')})"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
         "text",
@@ -107,14 +115,16 @@ def main():
         type=int,
         const=10,
         default=None,
-        help="show last n jottings (default 10)",
+        help="show last n jottings (default 10 if no number), "
+        "combine with --search to limit results",
     )
     parser.add_argument(
         "-s",
         "--search",
         nargs="?",
         type=str,
-        help="search jottings (regex supported)",
+        help="search jottings (regex supported), "
+        "combine with --list to limit results",
     )
     args = parser.parse_args()
 
