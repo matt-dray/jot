@@ -39,8 +39,9 @@ def write_jotting(jot_path, args):
             jot_file_content = f.read()
 
     timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
-    with jot_path.open("w", encoding="utf-8") as f:
-        f.write(f"{timestamp} {args.text}\n{jot_file_content}")
+    jot_path.write_text(
+        f"{timestamp} {args.text}\n{jot_file_content}", encoding="utf-8"
+    )
     print(f'Wrote "{args.text}" to {jot_path}')
 
 
