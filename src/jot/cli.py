@@ -15,7 +15,7 @@ from jot.core import (
 )
 
 
-def main():
+def main() -> None:
     """CLI entry point for jot."""
     parser = argparse.ArgumentParser(
         prog="jot",
