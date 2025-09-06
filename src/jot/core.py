@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 
 
-def build_config_path(config_file: Path = ".jot-config.json") -> Path:
+def get_config_path(config_file: Path = ".jot-config.json") -> Path:
     """
     Build the path to the config file in the user's home directory.
 
@@ -149,7 +149,7 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
 
 
 __all__ = [
-    "build_config_path",
+    "get_config_path",
     "generate_jot",
     "get_jot_path",
     "list_jottings",

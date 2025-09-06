@@ -5,8 +5,8 @@ CLI entry with argument parser.
 import argparse
 from importlib.metadata import version
 from jot.core import (
-    build_config_path,
     generate_jot,
+    get_config_path,
     get_jot_path,
     list_jottings,
     search_jottings,
@@ -62,7 +62,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    config_path = build_config_path()
+    config_path = get_config_path()
 
     if config_path.exists():
         jot_path = get_jot_path(config_path)
