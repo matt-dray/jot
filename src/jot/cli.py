@@ -15,8 +15,13 @@ from jot.core import (
 )
 
 
-def main():
-    """CLI entry point for jot."""
+def main() -> None:
+    """
+    CLI entry point for jot.
+
+    Returns:
+        None: Performs action depending on user input.
+    """
     parser = argparse.ArgumentParser(
         prog="jot",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
