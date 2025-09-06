@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 
 
-def build_config_path(config_file: Path = ".jot-config.json") -> Path:
+def get_config_path(config_file: Path = ".jot-config.json") -> Path:
     """
     Build the path to the config file in the user's home directory.
 
@@ -23,7 +23,7 @@ def build_config_path(config_file: Path = ".jot-config.json") -> Path:
     return config_path
 
 
-def get_jot_path(config_path: Path) -> Path:
+def read_jot_path(config_path: Path) -> Path:
     """
     Read the jot file path from the config file.
 
@@ -82,7 +82,7 @@ def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
     print(f'Wrote "{args.text}" to {jot_path}')
 
 
-def generate_jot() -> Path:
+def create_jot_file() -> Path:
     """
     Prompt the user for a jot file path and create it
 
@@ -149,10 +149,10 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
 
 
 __all__ = [
-    "build_config_path",
-    "generate_jot",
-    "get_jot_path",
+    "create_jot_file",
+    "get_config_path",
     "list_jottings",
+    "read_jot_path",
     "search_jottings",
     "write_to_config",
     "write_jotting",

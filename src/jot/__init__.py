@@ -3,20 +3,20 @@ Minimal opinionated Python CLI to jot timestamped thoughts.
 """
 
 from .core import (
-    build_config_path,
-    generate_jot,
-    get_jot_path,
+    create_jot_file,
+    get_config_path,
     list_jottings,
+    read_jot_path,
     search_jottings,
     write_to_config,
     write_jotting,
 )
 
 __all__ = [
-    "build_config_path",
-    "generate_jot",
-    "get_jot_path",
+    "create_jot_file",
+    "get_config_path",
     "list_jottings",
+    "read_jot_path",
     "search_jottings",
     "write_to_config",
     "write_jotting",

@@ -46,8 +46,8 @@ jot is CLI-first, but you can also import its functions to a Python session. For
 
 ```python
 from jot import *
-config_path = build_config_path()
-jot_path = get_jot_path(config_path)
+config_path = get_config_path()
+jot_path = read_jot_path(config_path)
 search_jottings(jot_path, "apple")
 ```
 

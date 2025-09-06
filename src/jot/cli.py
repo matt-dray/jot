@@ -5,10 +5,10 @@ CLI entry with argument parser.
 import argparse
 from importlib.metadata import version
 from jot.core import (
-    build_config_path,
-    generate_jot,
-    get_jot_path,
+    create_jot_file,
+    get_config_path,
     list_jottings,
+    read_jot_path,
     search_jottings,
     write_to_config,
     write_jotting,
@@ -62,12 +62,12 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    config_path = build_config_path()
+    config_path = get_config_path()
 
     if config_path.exists():
-        jot_path = get_jot_path(config_path)
+        jot_path = read_jot_path(config_path)
     else:
-        jot_path = generate_jot()
+        jot_path = create_jot_file()
         write_to_config(config_path, jot_path)
 
     if args.search:
