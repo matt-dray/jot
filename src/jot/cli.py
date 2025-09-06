@@ -7,8 +7,8 @@ from importlib.metadata import version
 from jot.core import (
     generate_jot,
     get_config_path,
-    get_jot_path,
     list_jottings,
+    read_jot_path,
     search_jottings,
     write_to_config,
     write_jotting,
@@ -65,7 +65,7 @@ def main() -> None:
     config_path = get_config_path()
 
     if config_path.exists():
-        jot_path = get_jot_path(config_path)
+        jot_path = read_jot_path(config_path)
     else:
         jot_path = generate_jot()
         write_to_config(config_path, jot_path)

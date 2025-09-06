@@ -23,7 +23,7 @@ def get_config_path(config_file: Path = ".jot-config.json") -> Path:
     return config_path
 
 
-def get_jot_path(config_path: Path) -> Path:
+def read_jot_path(config_path: Path) -> Path:
     """
     Read the jot file path from the config file.
 
@@ -151,8 +151,8 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
 __all__ = [
     "get_config_path",
     "generate_jot",
-    "get_jot_path",
     "list_jottings",
+    "read_jot_path",
     "search_jottings",
     "write_to_config",
     "write_jotting",
