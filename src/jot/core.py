@@ -2,19 +2,20 @@
 Read, write, and return content for config and jot files.
 """
 
+import argparse
 import datetime as dt
 import json
 from pathlib import Path
 import re
 
 
-def build_config_path(json_path=".jot-config.json"):
+def build_config_path(json_path: Path = ".jot-config.json") -> Path:
     """Return the path to the config file in the user's home directory."""
     config_path = Path.home() / json_path
     return config_path
 
 
-def get_jot_path(config_path):
+def get_jot_path(config_path: Path) -> Path:
     """Load the jot file path from the config file."""
     config_text = config_path.read_text()
     config_json = json.loads(config_text)
@@ -23,7 +24,7 @@ def get_jot_path(config_path):
     return jot_path
 
 
-def write_to_config(config_path, jot_path):
+def write_to_config(config_path: Path, jot_path: Path) -> None:
     """Write the jot file path to the config file."""
     json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
@@ -32,7 +33,7 @@ def write_to_config(config_path, jot_path):
     print(f"Text file path set to {jot_path}")
 
 
-def write_jotting(jot_path, args):
+def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
     """Prepend a new jotting with a timestamp to the jot file."""
 
     jot_file_content = ""
@@ -47,7 +48,7 @@ def write_jotting(jot_path, args):
     print(f'Wrote "{args.text}" to {jot_path}')
 
 
-def generate_jot():
+def generate_jot() -> Path:
     """Prompt the user for a jot file path and create it."""
     jot_path_user = input("Path to text file: ")
     jot_path = Path(jot_path_user).expanduser().resolve()
@@ -55,7 +56,7 @@ def generate_jot():
     return jot_path
 
 
-def list_jottings(jot_path, n=None):
+def list_jottings(jot_path: Path, n: int = None) -> None:
     """Print the last n jottings from the jot file."""
     if not jot_path.exists():
         print("No jottings yet. Try 'jot hello'.")
@@ -72,7 +73,7 @@ def list_jottings(jot_path, n=None):
         print(line)
 
 
-def search_jottings(jot_path, search_term, limit=None):
+def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None:
     """Search for a term in your jottings (regular expressions supported)."""
     if not jot_path.exists():
         print("No jottings yet. Try 'jot hello'.")
