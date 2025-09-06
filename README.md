@@ -4,16 +4,18 @@
 [![Blog
 posts](https://img.shields.io/badge/rostrum.blog-posts-008900?labelColor=000000&logo=data%3Aimage%2Fgif%3Bbase64%2CR0lGODlhEAAQAPEAAAAAABWCBAAAAAAAACH5BAlkAAIAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAAQAAAC55QkISIiEoQQQgghRBBCiCAIgiAIgiAIQiAIgSAIgiAIQiAIgRAEQiAQBAQCgUAQEAQEgYAgIAgIBAKBQBAQCAKBQEAgCAgEAoFAIAgEBAKBIBAQCAQCgUAgEAgCgUBAICAgICAgIBAgEBAgEBAgEBAgECAgICAgECAQIBAQIBAgECAgICAgICAgECAQECAQICAgICAgICAgEBAgEBAgEBAgICAgICAgECAQIBAQIBAgECAgICAgIBAgECAQECAQIBAgICAgIBAgIBAgEBAgECAgECAgICAgICAgECAgECAgQIAAAQIKAAAh%2BQQJZAACACwAAAAAEAAQAAAC55QkIiESIoQQQgghhAhCBCEIgiAIgiAIQiAIgSAIgiAIQiAIgRAEQiAQBAQCgUAQEAQEgYAgIAgIBAKBQBAQCAKBQEAgCAgEAoFAIAgEBAKBIBAQCAQCgUAgEAgCgUBAICAgICAgIBAgEBAgEBAgEBAgECAgICAgECAQIBAQIBAgECAgICAgICAgECAQECAQICAgICAgICAgEBAgEBAgEBAgICAgICAgECAQIBAQIBAgECAgICAgIBAgECAQECAQIBAgICAgIBAgIBAgEBAgECAgECAgICAgICAgECAgECAgQIAAAQIKAAA7)](https://www.rostrum.blog/index.html#category=jot)
 
-Minimal opinionated Python CLI to jot timestamped thoughts.
+Minimal opinionated Python command-line interface (CLI) to jot timestamped thoughts.
 
 ## Install
+
+Recommended:
 
 1. Install [uv](https://docs.astral.sh/uv/).
 2. Run `uv tool install git+https://github.com/matt-dray/jot` in a terminal.
 
 To update: `uv tool update jot`.
 
-## Use
+## CLI
 
 ### Write
 
@@ -23,9 +25,9 @@ Open a terminal and write a jotting:
 jot "ate an apple"
 ```
 
-The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The file path will be stored under the `JOT_PATH` key in a `jot_config.json` file saved to your computer's home folder.
+The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The file path will be stored under the `JOT_PATH` key in a `jot-config.json` file saved to the location given by pathlib's `Path.home()`.
 
-Each jotting is prepended to the text file in the form `[2025-08-25 11:15] ate an apple`.
+Each jotting is timestamped and prepended to the text file in the form `[2025-08-25 11:15] ate an apple`.
 
 ### Options
 
@@ -37,6 +39,17 @@ You can append optional flags. For example:
 * `jot -s "2025-08-2([5-9]).*apple"` to search with regex for 'apple' in a given work week
 * `jot -v` to get the version number
 * `jot -h` to show the help file
+
+## Python
+
+jot is CLI-first, but you can also import its functions to a Python session. For example:
+
+```python
+from jot import *
+config_path = build_config_path()
+jot_path = get_jot_path(config_path)
+search_jottings(jot_path, "apple")
+```
 
 ## Notes
 
