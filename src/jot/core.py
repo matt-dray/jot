@@ -82,7 +82,7 @@ def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
     print(f'Wrote "{args.text}" to {jot_path}')
 
 
-def generate_jot() -> Path:
+def create_jot_file() -> Path:
     """
     Prompt the user for a jot file path and create it
 
@@ -149,8 +149,8 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
 
 
 __all__ = [
+    "create_jot_file",
     "get_config_path",
-    "generate_jot",
     "list_jottings",
     "read_jot_path",
     "search_jottings",
