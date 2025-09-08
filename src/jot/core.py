@@ -7,6 +7,10 @@ import datetime as dt
 import json
 from pathlib import Path
 import re
+from rich.console import Console
+from rich.prompt import Prompt
+
+console = Console()
 
 
 def get_config_path(config_file: Path = ".jot-config.json") -> Path:
@@ -54,8 +58,8 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
-    print(f"Config file written to {config_path}")
-    print(f"Text file path set to {jot_path}")
+    console.print(f":round_pushpin: Text file path set to [green]{jot_path}[/]")
+    console.print(f":round_pushpin: Config file written to [green]{config_path}[/]")
 
 
 def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
@@ -79,7 +83,7 @@ def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
     jot_path.write_text(
         f"{timestamp} {args.text}\n{jot_file_content}", encoding="utf-8"
     )
-    print(f'Wrote "{args.text}" to {jot_path}')
+    console.print(f':memo: Wrote [green]"{args.text}"[/green] to [green]{jot_path}[/]')
 
 
 def create_jot_file() -> Path:
@@ -89,7 +93,9 @@ def create_jot_file() -> Path:
     Returns:
         Path: The file path to the jot file.
     """
-    jot_path_user = input("Path to text file: ")
+    jot_path_user = Prompt.ask(
+        ":round_pushpin: Path to text file",
+    )
     jot_path = Path(jot_path_user).expanduser().resolve()
     jot_path.touch()
     return jot_path
@@ -107,7 +113,7 @@ def list_jottings(jot_path: Path, limit: int = None) -> None:
         None: Prints output.
     """
     if not jot_path.exists():
-        print("No jottings yet. Try 'jot hello'.")
+        console.print(":x: No jottings yet. Try 'jot hello'.")
         return
 
     lines = jot_path.read_text().splitlines()
@@ -118,7 +124,7 @@ def list_jottings(jot_path: Path, limit: int = None) -> None:
         lines_to_show = lines[:limit]
 
     for line in lines_to_show:
-        print(line)
+        console.print(f"{line}")
 
 
 def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None:
@@ -134,7 +140,7 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
         None: Prints output.
     """
     if not jot_path.exists():
-        print("No jottings yet. Try 'jot hello'.")
+        console.print(":x: No jottings yet. Try 'jot hello'.")
         return
 
     with jot_path.open("r", encoding="utf-8") as f:
@@ -145,13 +151,37 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
         matches = matches[:limit]
 
     for line in matches:
-        print(line)
+        console.print(f"{line}")
+
+
+def print_paths() -> None:
+    """
+    Print the expected path to the config file and read the jot path from it.
+
+    Returns:
+        None: Prints output.
+    """
+    config_path = get_config_path()
+    if not config_path.exists():
+        console.print(
+            f":thinking: Config file not found in expected location: [red]{config_path}[/]"
+        )
+        return
+    console.print(
+        f":round_pushpin: Default path to config file: [green]{config_path}[/]"
+    )
+    jot_path = read_jot_path(config_path)
+    if not jot_path.exists():
+        print(f":thinking: Jot file not found in expected location: [red]{jot_path}[/]")
+        return
+    console.print(f":round_pushpin: Path to jot file: [green]{jot_path}[/]")
 
 
 __all__ = [
     "create_jot_file",
     "get_config_path",
     "list_jottings",
+    "print_paths",
     "read_jot_path",
     "search_jottings",
     "write_to_config",

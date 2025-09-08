@@ -8,6 +8,7 @@ from jot.core import (
     create_jot_file,
     get_config_path,
     list_jottings,
+    print_paths,
     read_jot_path,
     search_jottings,
     write_to_config,
@@ -60,6 +61,12 @@ def main() -> None:
         help="search jottings (regex supported), "
         "combine with --list to limit results",
     )
+    parser.add_argument(
+        "-w",
+        "--where",
+        action="store_true",
+        help="print locations of config and jot files",
+    )
     args = parser.parse_args()
 
     config_path = get_config_path()
@@ -70,7 +77,9 @@ def main() -> None:
         jot_path = create_jot_file()
         write_to_config(config_path, jot_path)
 
-    if args.search:
+    if args.where:
+        print_paths()
+    elif args.search:
         search_jottings(jot_path, args.search, args.list)
     elif args.list is not None:
         list_jottings(jot_path, args.list)

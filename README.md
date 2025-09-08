@@ -33,16 +33,17 @@ Each jotting is timestamped and prepended to the text file in the form `[2025-08
 
 You can append optional flags. For example:
 
-* `jot -l 5` to show the last 5 jottings
-* `jot -s apple` to search for 'apple' in jottings
-* `jot -s apple -l 3` to search for 'apple' _and_ limit to 3 jottings
-* `jot -s "2025-08-2([5-9]).*apple"` to search with regex for 'apple' in a given work week
-* `jot -v` to get the version number
-* `jot -h` to show the help file
+* `jot -l 5` to **l**ist the last 5 jottings
+* `jot -s apple` to **s**earch for 'apple' in jottings
+* `jot -s apple -l 3` to **s**earch for 'apple' _and_ **l**imit to 3 jottings
+* `jot -s "2025-08-2([5-9]).*apple"` to **s**earch with regex for 'apple' in a given work week
+* `jot -w` to show **w**here the config and jot files are
+* `jot -v` to get the **v**ersion number
+* `jot -h` to show the **h**elp file
 
 ## Python
 
-jot is CLI-first, but you can also import its functions to a Python session. For example:
+jot is CLI-first, but you can also import its functions to a Python session. For example, assuming you already set up a jot file:
 
 ```python
 from jot import *
