@@ -147,11 +147,29 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
     for line in matches:
         print(line)
 
+def print_paths() -> None:
+    """
+    Print the expected path to the config file and read the jot path from it.
+
+    Returns:
+        None: Prints output.
+    """
+    config_path = get_config_path()
+    if not config_path.exists():
+        print(f"Config file not found in expected location: {config_path}")
+        return
+    jot_path = read_jot_path(config_path)
+    if not jot_path.exists():
+        print(f"Jot file not found in expected location: {jot_path}")
+        return
+    print(f"Default path to config file: {config_path}")
+    print(f"Path to jot file: {jot_path}")
 
 __all__ = [
     "create_jot_file",
     "get_config_path",
     "list_jottings",
+    "print_paths",
     "read_jot_path",
     "search_jottings",
     "write_to_config",
