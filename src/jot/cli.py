@@ -62,7 +62,7 @@ def main() -> None:
         "combine with --list to limit results",
     )
     parser.add_argument(
-        "-w", 
+        "-w",
         "--where",
         action="store_true",
         help="print locations of config and jot files",

@@ -12,6 +12,7 @@ from rich.prompt import Prompt
 
 console = Console()
 
+
 def get_config_path(config_file: Path = ".jot-config.json") -> Path:
     """
     Build the path to the config file in the user's home directory.
@@ -92,7 +93,9 @@ def create_jot_file() -> Path:
     Returns:
         Path: The file path to the jot file.
     """
-    jot_path_user = Prompt.ask(":round_pushpin: Path to text file", )
+    jot_path_user = Prompt.ask(
+        ":round_pushpin: Path to text file",
+    )
     jot_path = Path(jot_path_user).expanduser().resolve()
     jot_path.touch()
     return jot_path
@@ -150,6 +153,7 @@ def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None
     for line in matches:
         console.print(f"{line}")
 
+
 def print_paths() -> None:
     """
     Print the expected path to the config file and read the jot path from it.
@@ -159,14 +163,19 @@ def print_paths() -> None:
     """
     config_path = get_config_path()
     if not config_path.exists():
-        console.print(f":thinking: Config file not found in expected location: [red]{config_path}[/]")
+        console.print(
+            f":thinking: Config file not found in expected location: [red]{config_path}[/]"
+        )
         return
-    console.print(f":round_pushpin: Default path to config file: [green]{config_path}[/]")
+    console.print(
+        f":round_pushpin: Default path to config file: [green]{config_path}[/]"
+    )
     jot_path = read_jot_path(config_path)
     if not jot_path.exists():
         print(f":thinking: Jot file not found in expected location: [red]{jot_path}[/]")
         return
-    console.print(f":round_pushpin: Path to jot file: [green]{jot_path}[/green]")
+    console.print(f":round_pushpin: Path to jot file: [green]{jot_path}[/]")
+
 
 __all__ = [
     "create_jot_file",
