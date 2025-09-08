@@ -42,7 +42,7 @@ You can append optional flags. For example:
 
 ## Python
 
-jot is CLI-first, but you can also import its functions to a Python session. For example:
+jot is CLI-first, but you can also import its functions to a Python session. For example, assuming you already set up a jot file:
 
 ```python
 from jot import *
