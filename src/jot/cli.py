@@ -58,8 +58,7 @@ def main() -> None:
         "--search",
         nargs="?",
         type=str,
-        help="search jottings (regex supported), "
-        "combine with --list to limit results",
+        help="search jottings (regex supported), combine with --list to limit results",
     )
     parser.add_argument(
         "-w",
