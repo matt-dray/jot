@@ -30,7 +30,7 @@ wheels = [
 
 [[package]]
 name = "jot"
-version = "0.2.7.9000"
+version = "0.2.8"
 source = { editable = "." }
 dependencies = [
     { name = "argparse" },
