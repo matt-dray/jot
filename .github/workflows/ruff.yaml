@@ -1,6 +1,8 @@
 # Example adapted from https://docs.astral.sh/ruff/integrations/#github-actions
 name: ruff lint and format
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
