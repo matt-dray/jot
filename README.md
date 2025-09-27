@@ -13,7 +13,7 @@ Recommended:
 1. Install [uv](https://docs.astral.sh/uv/).
 2. Run `uv tool install git+https://github.com/matt-dray/jot` in a terminal.
 
-To update: `uv tool update jot`.
+Requires Python >=3.10. To update: `uv tool update jot`.
 
 ## CLI
 
