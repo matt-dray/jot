@@ -1,4 +1,4 @@
-name: Linting, styling and type-checking
+name: Code quality
 
 on: pull_request
 
