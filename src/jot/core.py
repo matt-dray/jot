@@ -13,7 +13,7 @@ from rich.prompt import Prompt
 console = Console()
 
 
-def get_config_path(config_file: Path = ".jot-config.json") -> Path:
+def get_config_path(config_file: str = ".jot-config.json") -> Path:
     """
     Build the path to the config file in the user's home directory.
 
@@ -37,7 +37,7 @@ def read_jot_path(config_path: Path) -> Path:
     Returns:
         Path: The file path to the jot file.
     """
-    config_text = config_path.read_text()
+    config_text = config_path.read_text(encoding="utf-8")
     config_json = json.loads(config_text)
     jot_path_text = config_json["JOT_PATH"]
     jot_path = Path(jot_path_text)
@@ -62,7 +62,7 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     console.print(f":round_pushpin: Config file written to [green]{config_path}[/]")
 
 
-def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
+def write_jotting(jot_path: Path, args: argparse.Namespace) -> None:
     """
     Prepend a new jotting with a timestamp to the jot file.
 
@@ -76,8 +76,7 @@ def write_jotting(jot_path: Path, args=argparse.Namespace) -> None:
 
     jot_file_content = ""
     if jot_path.exists():
-        with jot_path.open("r", encoding="utf-8") as f:
-            jot_file_content = f.read()
+        jot_file_content = jot_path.read_text(encoding="utf-8")
 
     timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
     jot_path.write_text(
@@ -101,13 +100,13 @@ def create_jot_file() -> Path:
     return jot_path
 
 
-def list_jottings(jot_path: Path, limit: int = None) -> None:
+def list_jottings(jot_path: Path, limit: int | None = None) -> None:
     """
     Print the last n jottings from the jot file.
 
     Args:
         jot_path (Path): The path to the jot file.
-        limit (int): Maximum number of recent jottings to print.
+        limit (int | None): Maximum number of recent jottings to print.
 
     Returns:
         None: Prints output.
@@ -116,25 +115,23 @@ def list_jottings(jot_path: Path, limit: int = None) -> None:
         console.print(":x: No jottings yet. Try 'jot hello'.")
         return
 
-    lines = jot_path.read_text().splitlines()
+    lines = jot_path.read_text(encoding="utf-8").splitlines()
 
-    if limit is None:
-        lines_to_show = lines
-    else:
-        lines_to_show = lines[:limit]
+    if limit is not None:
+        lines = lines[:limit]
 
-    for line in lines_to_show:
+    for line in lines:
         console.print(f"{line}")
 
 
-def search_jottings(jot_path: Path, search_term: str, limit: int = None) -> None:
+def search_jottings(jot_path: Path, search_term: str, limit: int | None = None) -> None:
     """
     Search for a term in your jottings (regular expressions supported).
 
     Args:
         jot_path (Path): The path to the jot file.
         search_term (str): Text string to search (regular expressions supported).
-        limit (int): Maximum number of recent jottings to print.
+        limit (int | None): Maximum number of recent jottings to print.
 
     Returns:
         None: Prints output.
