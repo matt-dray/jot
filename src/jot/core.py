@@ -100,13 +100,35 @@ def create_jot_file() -> Path:
     return jot_path
 
 
-def list_jottings(jot_path: Path, limit: int | None = None) -> None:
+def check_in_period(line: str, period_from: dt.datetime | None, period_to: dt.datetime | None) -> bool:
+    if not line.startswith("[") or "]" not in line:
+        return False
+    stamp = line[1 : line.index("]")]
+    try:
+        date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M")
+    except ValueError:
+        return False
+    if period_from is not None and date < period_from:
+        return False
+    if period_to is not None and date > period_to:
+        return False
+    return True
+
+
+def list_jottings(
+    jot_path: Path,
+    limit: int | None = None,
+    period_from: dt.datetime | None = None,
+    period_to: dt.datetime | None = None,
+) -> None:
     """
     Print the last n jottings from the jot file.
 
     Args:
         jot_path (Path): The path to the jot file.
         limit (int | None): Maximum number of recent jottings to print.
+        period_from (datetime | None): Only match from this date.
+        period_to (datetime | None): Only match until this date.
 
     Returns:
         None: Prints output.
@@ -117,6 +139,9 @@ def list_jottings(jot_path: Path, limit: int | None = None) -> None:
 
     lines = jot_path.read_text(encoding="utf-8").splitlines()
 
+    if period_to is not None or period_from is not None:
+        lines = [line for line in lines if check_in_period(line, period_from, period_to)]
+
     if limit is not None:
         lines = lines[:limit]
 
@@ -124,7 +149,13 @@ def list_jottings(jot_path: Path, limit: int | None = None) -> None:
         console.print(f"{line}")
 
 
-def search_jottings(jot_path: Path, search_term: str, limit: int | None = None) -> None:
+def search_jottings(
+    jot_path: Path,
+    search_term: str,
+    limit: int | None = None,
+    period_from: dt.datetime | None = None,
+    period_to: dt.datetime | None = None,
+) -> None:
     """
     Search for a term in your jottings (regular expressions supported).
 
@@ -132,6 +163,8 @@ def search_jottings(jot_path: Path, search_term: str, limit: int | None = None) 
         jot_path (Path): The path to the jot file.
         search_term (str): Text string to search (regular expressions supported).
         limit (int | None): Maximum number of recent jottings to print.
+        period_from (datetime | None): Only match from this date.
+        period_to (datetime | None): Only match until this date.
 
     Returns:
         None: Prints output.
@@ -143,6 +176,9 @@ def search_jottings(jot_path: Path, search_term: str, limit: int | None = None) 
     with jot_path.open("r", encoding="utf-8") as f:
         lines = [line.rstrip("\n") for line in f]
     matches = [line for line in lines if re.search(search_term, line)]
+
+    if period_to is not None or period_from is not None:
+        matches = [line for line in matches if check_in_period(line, period_from, period_to)]
 
     if limit is not None:
         matches = matches[:limit]
