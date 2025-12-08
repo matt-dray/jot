@@ -100,7 +100,9 @@ def create_jot_file() -> Path:
     return jot_path
 
 
-def check_in_period(line: str, period_from: dt.datetime | None, period_to: dt.datetime | None) -> bool:
+def check_in_period(
+    line: str, period_from: dt.datetime | None, period_to: dt.datetime | None
+) -> bool:
     if not line.startswith("[") or "]" not in line:
         return False
     stamp = line[1 : line.index("]")]
@@ -140,7 +142,9 @@ def list_jottings(
     lines = jot_path.read_text(encoding="utf-8").splitlines()
 
     if period_to is not None or period_from is not None:
-        lines = [line for line in lines if check_in_period(line, period_from, period_to)]
+        lines = [
+            line for line in lines if check_in_period(line, period_from, period_to)
+        ]
 
     if limit is not None:
         lines = lines[:limit]
@@ -178,7 +182,9 @@ def search_jottings(
     matches = [line for line in lines if re.search(search_term, line)]
 
     if period_to is not None or period_from is not None:
-        matches = [line for line in matches if check_in_period(line, period_from, period_to)]
+        matches = [
+            line for line in matches if check_in_period(line, period_from, period_to)
+        ]
 
     if limit is not None:
         matches = matches[:limit]
