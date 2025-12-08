@@ -3,6 +3,7 @@ CLI entry with argument parser.
 """
 
 import argparse
+from dateutil.parser import parse as date_time
 from importlib.metadata import version
 from jot.core import (
     create_jot_file,
@@ -51,14 +52,31 @@ def main() -> None:
         const=10,
         default=None,
         help="show last n jottings (default 10 if no number), "
-        "combine with --search to limit results",
+        "combine with --search, --from-date, --to-date to limit results",
     )
     parser.add_argument(
         "-s",
         "--search",
         nargs="?",
         type=str,
-        help="search jottings (regex supported), combine with --list to limit results",
+        help="search jottings (regex supported), combine with "
+        "--list, --from-date, --to-date to limit results",
+    )
+    parser.add_argument(
+        "-f",
+        "--from-date",
+        type=date_time,
+        default=None,
+        help="list jottings starting from this date, combine with "
+        "--list or --search to limit results",
+    )
+    parser.add_argument(
+        "-t",
+        "--to-date",
+        type=date_time,
+        default=None,
+        help="list jottings before this date, combine with "
+        "--list or --search to limit results",
     )
     parser.add_argument(
         "-w",
@@ -79,9 +97,11 @@ def main() -> None:
     if args.where:
         print_paths()
     elif args.search:
-        search_jottings(jot_path, args.search, args.list)
+        search_jottings(jot_path, args.search, args.list, args.from_date, args.to_date)
     elif args.list is not None:
-        list_jottings(jot_path, args.list)
+        list_jottings(jot_path, args.list, args.from_date, args.to_date)
+    elif args.from_date is not None or args.to_date is not None:
+        list_jottings(jot_path, None, args.from_date, args.to_date)
     elif args.text:
         write_jotting(jot_path, args)
     else:
