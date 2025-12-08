@@ -27,19 +27,29 @@ jot "ate an apple"
 
 The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written. The file path will be stored under the `JOT_PATH` key in a `jot-config.json` file saved to the location given by pathlib's `Path.home()`.
 
-Each jotting is timestamped and prepended to the text file in the form `[2025-08-25 11:15] ate an apple`.
+Each jotting is timestamped and prepended to your text file:
+
+```
+[2025-08-28 11:15] ate an apple
+[2025-08-27 10:58] ate a kiwi
+[2025-08-26 11:09] ate a pineapple
+[2025-08-25 10:40] ate an apple and a pear
+```
 
 ### Options
 
-You can append optional flags. For example:
+You can review your jottings with optional flags. For example:
 
-* `jot -l 5` to **l**ist the last 5 jottings
-* `jot -s apple` to **s**earch for 'apple' in jottings
-* `jot -s apple -l 3` to **s**earch for 'apple' _and_ **l**imit to 3 jottings
-* `jot -s "2025-08-2([5-9]).*apple"` to **s**earch with regex for 'apple' in a given work week
-* `jot -w` to show **w**here the config and jot files are
-* `jot -v` to get the **v**ersion number
-* `jot -h` to show the **h**elp file
+* `jot -l 3` to <u>l</u>ist the last three
+* `jot -s apple -l 1` to <u>s</u>earch for 'apple' and <u>l</u>imit to the most recent one
+* `jot -s "[^pine]apple"` to <u>s</u>earch for 'apple' with regular expression that excludes 'pineapple'
+* `jot -f 20250825 -t 20250828` to return jottings <u>f</u>rom 25 Aug 2025 (inclusive) and <u>t</u>o 28 Aug 2025 (exclusive)
+
+And for information:
+
+* `jot -w` to show <u>w</u>here the config and jot files are
+* `jot -v` to get the <u>v</u>ersion number
+* `jot -h` to show the <u>h</u>elp file, which includes possible flag combinations
 
 ## Python
 
@@ -54,6 +64,6 @@ search_jottings(jot_path, "apple")
 
 ## Notes
 
-* I developed this to help me remember the tasks I've done during my day job and later reflect.
+* I developed this tool to help me remember the tasks I've done during my day job and later reflect.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
 * [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, [v0.2.0](https://github.com/matt-dray/jot/compare/v0.1.0...v0.2.0) rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).
