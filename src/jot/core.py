@@ -7,23 +7,28 @@ import datetime as dt
 import json
 from pathlib import Path
 import re
+
 from rich.console import Console
 from rich.prompt import Prompt
 
 console = Console()
 
 
-def get_config_path(config_file: str = ".jot-config.json") -> Path:
+def get_config_path(
+    config_file: str = ".jot-config.json", home_dir: Path | None = None
+) -> Path:
     """
     Build the path to the config file in the user's home directory.
 
     Args:
-        config_file (Path): The file name for the config file.
+        config_file (str): The file name for the config file.
+        home_dir (Path): The user's home directory.
 
     Returns:
         Path: The file path to the config file.
     """
-    config_path = Path.home() / config_file
+    stub = home_dir if home_dir is not None else Path.home()
+    config_path = stub / config_file
     return config_path
 
 
@@ -62,39 +67,43 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     console.print(f":round_pushpin: Config file written to [green]{config_path}[/]")
 
 
-def write_jotting(jot_path: Path, args: argparse.Namespace) -> None:
+def write_jotting(
+    jot_path: Path, args: argparse.Namespace, now_dt=dt.datetime.now
+) -> None:
     """
     Prepend a new jotting with a timestamp to the jot file.
 
     Args:
         jot_path (Path): The path to the jot file.
         args (argparse.Namespace): Arguments collected from the argument parser.
+        now_dt (dt.datetime): Datetime of execution.
 
     Returns:
         None: Prints output.
     """
-
     jot_file_content = ""
     if jot_path.exists():
         jot_file_content = jot_path.read_text(encoding="utf-8")
 
-    timestamp = dt.datetime.now().strftime("[%Y-%m-%d %H:%M]")
+    timestamp = now_dt().strftime("[%Y-%m-%d %H:%M]")
     jot_path.write_text(
-        f"{timestamp} {args.text}\n{jot_file_content}", encoding="utf-8"
+        f"{timestamp} {args.text}\n{jot_file_content}",
+        encoding="utf-8",
     )
     console.print(f':memo: Wrote [green]"{args.text}"[/green] to [green]{jot_path}[/]')
 
 
-def create_jot_file() -> Path:
+def create_jot_file(prompt_user=Prompt.ask) -> Path:
     """
-    Prompt the user for a jot file path and create it
+    Prompt the user for a jot file path and create it.
+
+    Args:
+        prompt_user (Prompt.ask): Prompt the user for input.
 
     Returns:
         Path: The file path to the jot file.
     """
-    jot_path_user = Prompt.ask(
-        ":round_pushpin: Path to text file",
-    )
+    jot_path_user = prompt_user(":round_pushpin: Path to text file")
     jot_path = Path(jot_path_user).expanduser().resolve()
     jot_path.touch()
     return jot_path
@@ -193,26 +202,35 @@ def search_jottings(
         console.print(f"{line}")
 
 
-def print_paths() -> None:
+def print_paths(home_dir: Path | None = None) -> None:
     """
     Print the expected path to the config file and read the jot path from it.
+
+    Args:
+        config_file (str): The file name for the config file.
+        home_dir (Path): The user's home directory.
 
     Returns:
         None: Prints output.
     """
-    config_path = get_config_path()
+    config_path = get_config_path(home_dir=home_dir)
     if not config_path.exists():
         console.print(
             f":thinking: Config file not found in expected location: [red]{config_path}[/]"
         )
         return
+
     console.print(
         f":round_pushpin: Default path to config file: [green]{config_path}[/]"
     )
+
     jot_path = read_jot_path(config_path)
     if not jot_path.exists():
-        print(f":thinking: Jot file not found in expected location: [red]{jot_path}[/]")
+        console.print(
+            f":thinking: Jot file not found in expected location: [red]{jot_path}[/]"
+        )
         return
+
     console.print(f":round_pushpin: Path to jot file: [green]{jot_path}[/]")
 
 
