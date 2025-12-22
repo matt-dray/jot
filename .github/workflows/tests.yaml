@@ -19,5 +19,7 @@ jobs:
         with:
           version: "latest"
           activate-environment: true
+      - name: Install project
+        run: uv pip install -e .[dev]
       - name: Run tests
         run: uvx pytest --maxfail=1 --disable-warnings -v
