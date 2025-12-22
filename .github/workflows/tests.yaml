@@ -16,4 +16,4 @@ jobs:
       - name: Install project
         run: uv pip install -e .[dev]
       - name: Run tests
-        run: uv pytest --maxfail=1 --disable-warnings -v
+        run: uv run pytest --maxfail=1 --disable-warnings -v
