@@ -1,6 +1,6 @@
 [project]
 name = "jot"
-version = "0.2.10"
+version = "0.2.11"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [
@@ -24,5 +24,5 @@ build-backend = "uv_build"
 
 [project.optional-dependencies]
 dev = [
-    "ruff>=0.11.10",
+    "pytest>=9.0.2",
 ]
