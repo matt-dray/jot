@@ -1,28 +1,35 @@
 [project]
 name = "jot"
-version = "0.2.11"
+version = "0.2.11.9000"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [
-    { name = "Matt Dray", email = "mwdray@gmail.com" }
+    { name = "Matt Dray", email = "mwdray+jot@gmail.com" }
 ]
+license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = [
-    "argparse>=1.4.0",
-    "datetime>=5.5",
-    "pathlib>=1.0.1",
     "python-dateutil>=2.9.0",
     "rich>=14.1.0",
 ]
+keywords = ["cli", "notes", "productivity"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Environment :: Console",
+]
+
+[project.urls]
+Repository = "https://github.com/matt-dray/jot"
 
 [project.scripts]
 jot = "jot.cli:main"
-
-[build-system]
-requires = ["uv_build>=0.8.8,<0.9.0"]
-build-backend = "uv_build"
 
 [project.optional-dependencies]
 dev = [
     "pytest>=9.0.2",
 ]
+
+[build-system]
+requires = ["uv_build>=0.11.11,<0.12"]
+build-backend = "uv_build"
