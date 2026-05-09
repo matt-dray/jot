@@ -1,6 +1,6 @@
 [project]
 name = "jot"
-version = "0.2.11.9000"
+version = "0.2.11.9001"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [
@@ -9,6 +9,7 @@ authors = [
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 dependencies = [
+    "platformdirs>=4.9.6",
     "python-dateutil>=2.9.0",
     "rich>=14.1.0",
 ]

@@ -6,6 +6,7 @@ import argparse
 import datetime as dt
 import json
 from pathlib import Path
+from platformdirs import user_config_path
 import re
 
 from rich.console import Console
@@ -15,19 +16,19 @@ console = Console()
 
 
 def get_config_path(
-    config_file: str = ".jot-config.json", home_dir: Path | None = None
+    config_file: str = "config.json", config_dir: Path | None = None
 ) -> Path:
     """
-    Build the path to the config file in the user's home directory.
+    Build the path to the config file in the user's config directory.
 
     Args:
         config_file (str): The file name for the config file.
-        home_dir (Path): The user's home directory.
+        config_dir (Path): The user's config directory.
 
     Returns:
         Path: The file path to the config file.
     """
-    stub = home_dir if home_dir is not None else Path.home()
+    stub = config_dir if config_dir is not None else user_config_path("jot")
     config_path = stub / config_file
     return config_path
 
@@ -60,6 +61,7 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     Returns:
         None: Prints output.
     """
+    config_path.parent.mkdir(parents=True, exist_ok=True)
     json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
@@ -202,18 +204,18 @@ def search_jottings(
         console.print(f"{line}")
 
 
-def print_paths(home_dir: Path | None = None) -> None:
+def print_paths(config_dir: Path | None = None) -> None:
     """
     Print the expected path to the config file and read the jot path from it.
 
     Args:
         config_file (str): The file name for the config file.
-        home_dir (Path): The user's home directory.
+        config_dir (Path): The user's config directory.
 
     Returns:
         None: Prints output.
     """
-    config_path = get_config_path(home_dir=home_dir)
+    config_path = get_config_path(config_dir=config_dir)
     if not config_path.exists():
         console.print(
             f":thinking: Config file not found in expected location: [red]{config_path}[/]"

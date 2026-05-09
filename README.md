@@ -27,7 +27,7 @@ jot "ate an apple"
 ```
 
 The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written.
-The file path will be stored under the `JOT_PATH` key in a `jot-config.json` file saved to the location given by pathlib's `Path.home()`.
+The file path will be stored under the `JOT_PATH` key in a `config.json` file, which is saved to the OS-dependent location resolved by `platformdirs.user_config_path("jot")`.
 
 Each jotting is timestamped and prepended to your text file:
 
