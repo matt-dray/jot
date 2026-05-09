@@ -11,7 +11,7 @@ import jot.core as core
 def test_get_config_path(tmp_path: Path):
     path = core.get_config_path(
         config_file="config.json",
-        home_dir=tmp_path,
+        config_dir=tmp_path,
     )
     assert path == tmp_path / "config.json"
 
@@ -105,7 +105,7 @@ def test_search_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
 
 
 def test_print_paths_missing_config(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
-    core.print_paths(home_dir=tmp_path)
+    core.print_paths(config_dir=tmp_path)
 
     out = capsys.readouterr().out
     assert "Config file not found" in out
