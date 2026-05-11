@@ -87,12 +87,12 @@ def write_jotting(
     if jot_path.exists():
         jot_file_content = jot_path.read_text(encoding="utf-8")
 
-    timestamp = now_dt().strftime("[%Y-%m-%d %H:%M]")
+    timestamp = now_dt().strftime("%Y-%m-%d %H:%M")
     jot_path.write_text(
-        f"{timestamp} {args.text}\n{jot_file_content}",
+        f"[{timestamp}] {args.text}\n{jot_file_content}",
         encoding="utf-8",
     )
-    console.print(f':memo: Wrote [green]"{args.text}"[/green] to [green]{jot_path}[/]')
+    console.print(f":white_check_mark: Jotted at {timestamp}")
 
 
 def create_jot_file(prompt_user=Prompt.ask) -> Path:
