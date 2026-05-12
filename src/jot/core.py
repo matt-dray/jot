@@ -65,8 +65,8 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
-    console.print(f":round_pushpin: Text file path set to [green]{jot_path}[/]")
-    console.print(f":round_pushpin: Config file written to [green]{config_path}[/]")
+    console.print(f":white_check_mark: Wrote config file to [green]{config_path}[/]")
+    console.print(f":white_check_mark: Set JOT_PATH variable to [green]{jot_path}[/]")
 
 
 def write_jotting(
@@ -84,8 +84,12 @@ def write_jotting(
         None: Prints output.
     """
     jot_file_content = ""
+
     if jot_path.exists():
         jot_file_content = jot_path.read_text(encoding="utf-8")
+    else:
+        jot_path.write_text("", encoding="utf-8")
+        console.print(f":white_check_mark: Created jot file at [green]{jot_path}[/]")
 
     timestamp = now_dt().strftime("%Y-%m-%d %H:%M")
     jot_path.write_text(
@@ -105,7 +109,7 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
     Returns:
         Path: The file path to the jot file.
     """
-    jot_path_user = prompt_user(":round_pushpin: Path to text file")
+    jot_path_user = prompt_user(":round_pushpin: Path to create text file")
     jot_path = Path(jot_path_user).expanduser().resolve()
     jot_path.touch()
     return jot_path
@@ -147,7 +151,10 @@ def list_jottings(
         None: Prints output.
     """
     if not jot_path.exists():
-        console.print(":x: No jottings yet. Try 'jot hello'.")
+        console.print(
+            f":x: Jot file missing at config location: [green]{jot_path}[/]",
+            "\n:memo: Try 'jot hello' to create it and add a jotting."
+        )
         return
 
     lines = jot_path.read_text(encoding="utf-8").splitlines()
@@ -185,7 +192,7 @@ def search_jottings(
         None: Prints output.
     """
     if not jot_path.exists():
-        console.print(":x: No jottings yet. Try 'jot hello'.")
+        console.print(":x: Jot file missing at config location. Try 'jot hello'.")
         return
 
     with jot_path.open("r", encoding="utf-8") as f:
@@ -218,22 +225,20 @@ def print_paths(config_dir: Path | None = None) -> None:
     config_path = get_config_path(config_dir=config_dir)
     if not config_path.exists():
         console.print(
-            f":thinking: Config file not found in expected location: [red]{config_path}[/]"
+            f":x: Config file not found in expected location: [red]{config_path}[/]"
         )
         return
 
-    console.print(
-        f":round_pushpin: Default path to config file: [green]{config_path}[/]"
-    )
+    console.print(f":round_pushpin: Config file: [green]{config_path}[/]")
 
     jot_path = read_jot_path(config_path)
     if not jot_path.exists():
         console.print(
-            f":thinking: Jot file not found in expected location: [red]{jot_path}[/]"
+            f":x: Jot file not found in expected location: [red]{jot_path}[/]"
         )
         return
 
-    console.print(f":round_pushpin: Path to jot file: [green]{jot_path}[/]")
+    console.print(f":round_pushpin: Jot file: [green]{jot_path}[/]")
 
 
 __all__ = [
