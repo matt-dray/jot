@@ -109,10 +109,14 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
     Returns:
         Path: The file path to the jot file.
     """
-    jot_path_user = prompt_user(":round_pushpin: Path to create text file")
-    jot_path = Path(jot_path_user).expanduser().resolve()
-    jot_path.touch()
-    return jot_path
+    while True:
+        jot_path_user = prompt_user(":pencil: Path to create jot file")
+        if Path(jot_path_user).suffix != ".txt":
+            console.print(":x: The jot path must be to a .txt file. Try again.")
+        else:
+            jot_path = Path(jot_path_user).expanduser().resolve()
+            jot_path.touch()
+            return jot_path
 
 
 def check_in_period(
@@ -153,7 +157,7 @@ def list_jottings(
     if not jot_path.exists():
         console.print(
             f":x: Jot file missing at config location: [green]{jot_path}[/]",
-            "\n:memo: Try 'jot hello' to create it and add a jotting."
+            "\n:memo: Try 'jot hello' to create it and add a jotting.",
         )
         return
 
