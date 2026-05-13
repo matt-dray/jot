@@ -65,7 +65,7 @@ def write_to_config(config_path: Path, jot_path: Path) -> None:
     json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
         json.dump(json_dict, f)
-    console.print(f":white_check_mark: Wrote config file to [green]{config_path}[/]")
+    console.print(f":white_check_mark: Created config file at [green]{config_path}[/]")
     console.print(f":white_check_mark: Set JOT_PATH variable to [green]{jot_path}[/]")
 
 
@@ -110,13 +110,23 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
         Path: The file path to the jot file.
     """
     while True:
-        jot_path_user = prompt_user(":pencil: Path to create jot file")
-        if Path(jot_path_user).suffix != ".txt":
-            console.print(":x: The jot path must be to a .txt file. Try again.")
+        jot_path_str = prompt_user(":pencil: Provide a path for the jot file (.txt)")
+        
+        if Path(jot_path_str).suffix != ".txt":
+            console.print(":x: You must provide a .txt file path. Try again.")
+            continue
+        
+        jot_path = Path(jot_path_str).expanduser().resolve()
+        
+        if jot_path.exists():
+            confirm = prompt_user(":exclamation: File already exists. Use it? y/n")
+            if confirm.lower() != "y":
+                continue
         else:
-            jot_path = Path(jot_path_user).expanduser().resolve()
+            jot_path.parent.mkdir(parents=True, exist_ok=True)
             jot_path.touch()
-            return jot_path
+        
+        return jot_path
 
 
 def check_in_period(
@@ -156,8 +166,8 @@ def list_jottings(
     """
     if not jot_path.exists():
         console.print(
-            f":x: Jot file missing at config location: [green]{jot_path}[/]",
-            "\n:memo: Try 'jot hello' to create it and add a jotting.",
+            f":x: Couldn't find the jot file recorded in the config: [green]{jot_path}[/]",
+            "\n:pencil: Try 'jot hello' to create it and add a jotting.",
         )
         return
 
@@ -196,7 +206,10 @@ def search_jottings(
         None: Prints output.
     """
     if not jot_path.exists():
-        console.print(":x: Jot file missing at config location. Try 'jot hello'.")
+        console.print(
+            f":x: Couldn't find the jot file recorded in the config: [green]{jot_path}[/]",
+            "\n:pencil: Try 'jot hello' to create it and add a jotting.",
+        )
         return
 
     with jot_path.open("r", encoding="utf-8") as f:
@@ -229,7 +242,7 @@ def print_paths(config_dir: Path | None = None) -> None:
     config_path = get_config_path(config_dir=config_dir)
     if not config_path.exists():
         console.print(
-            f":x: Config file not found in expected location: [red]{config_path}[/]"
+            f":x: Couldn't find the config file in the expected location: [red]{config_path}[/]"
         )
         return
 
@@ -238,7 +251,7 @@ def print_paths(config_dir: Path | None = None) -> None:
     jot_path = read_jot_path(config_path)
     if not jot_path.exists():
         console.print(
-            f":x: Jot file not found in expected location: [red]{jot_path}[/]"
+            f":x: Couldn't find the jot file in the expected location: [red]{jot_path}[/]"
         )
         return
 
