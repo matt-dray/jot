@@ -111,13 +111,13 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
     """
     while True:
         jot_path_str = prompt_user(":pencil: Provide a path for the jot file (.txt)")
-        
+
         if Path(jot_path_str).suffix != ".txt":
             console.print(":x: You must provide a .txt file path. Try again.")
             continue
-        
+
         jot_path = Path(jot_path_str).expanduser().resolve()
-        
+
         if jot_path.exists():
             confirm = prompt_user(":exclamation: File already exists. Use it? y/n")
             if confirm.lower() != "y":
@@ -125,7 +125,7 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
         else:
             jot_path.parent.mkdir(parents=True, exist_ok=True)
             jot_path.touch()
-        
+
         return jot_path
 
 
