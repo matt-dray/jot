@@ -108,4 +108,4 @@ def test_print_paths_missing_config(tmp_path: Path, capsys: pytest.CaptureFixtur
     core.print_paths(config_dir=tmp_path)
 
     out = capsys.readouterr().out
-    assert "Config file not found" in out
+    assert "Couldn't find the config file" in out
