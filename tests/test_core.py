@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-import jot.core as core
+import jott.core as core
 
 
 def test_get_config_path(tmp_path: Path):
@@ -18,39 +18,39 @@ def test_get_config_path(tmp_path: Path):
 
 def test_write_and_read_config(tmp_path: Path):
     config = tmp_path / "config.json"
-    jot = tmp_path / "jot.txt"
+    jott = tmp_path / "jott.txt"
 
-    core.write_to_config(config, jot)
+    core.write_to_config(config, jott)
 
     data = json.loads(config.read_text())
-    assert data["JOT_PATH"] == jot.as_posix()
-    assert core.read_jot_path(config) == jot
+    assert data["JOTT_PATH"] == jott.as_posix()
+    assert core.read_jott_path(config) == jott
 
 
 def test_write_jotting_prepends(tmp_path: Path):
     def fixed_now():
         return dt.datetime(2025, 12, 25, 1, 0)
 
-    jot = tmp_path / "jot.txt"
-    jot.write_text("[2025-12-24 23:00] egg\n")
+    jott = tmp_path / "jott.txt"
+    jott.write_text("[2025-12-24 23:00] egg\n")
 
     args = argparse.Namespace(text="spam")
 
-    core.write_jotting(jot, args, now_dt=fixed_now)
+    core.write_jotting(jott, args, now_dt=fixed_now)
 
-    content = jot.read_text()
+    content = jott.read_text()
     assert content.startswith("[2025-12-25 01:00] spam")
     assert "egg" in content
 
 
-def test_create_jot_file(tmp_path: Path):
+def test_create_jott_file(tmp_path: Path):
     def prompt(_):
         return str(tmp_path / "spam.txt")
 
-    jot = core.create_jot_file(prompt_user=prompt)
+    jott = core.create_jott_file(prompt_user=prompt)
 
-    assert jot.exists()
-    assert jot.name == "spam.txt"
+    assert jott.exists()
+    assert jott.name == "spam.txt"
 
 
 def test_check_in_period_valid():
@@ -74,14 +74,14 @@ def test_check_in_period_invalid(line):
 
 
 def test_list_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
-    jot = tmp_path / "jot.txt"
-    jot.write_text(
+    jott = tmp_path / "jott.txt"
+    jott.write_text(
         "[2025-12-03 09:00] egg and spam\n"
         "[2025-12-02 09:00] spam and spam\n"
         "[2025-12-01 09:00] lobster thermidor\n"
     )
 
-    core.list_jottings(jot, limit=2)
+    core.list_jottings(jott, limit=2)
 
     out = capsys.readouterr().out
     assert "egg and spam" in out
@@ -90,14 +90,14 @@ def test_list_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
 
 
 def test_search_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
-    jot = tmp_path / "jot.txt"
-    jot.write_text(
+    jott = tmp_path / "jott.txt"
+    jott.write_text(
         "[2025-12-03 09:00] egg and spam\n"
         "[2025-12-02 09:00] spam and spam\n"
         "[2025-12-01 09:00] lobster thermidor\n"
     )
 
-    core.search_jottings(jot, "egg")
+    core.search_jottings(jott, "egg")
 
     out = capsys.readouterr().out
     assert "egg" in out

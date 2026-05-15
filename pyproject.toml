@@ -1,10 +1,10 @@
 [project]
-name = "jot"
-version = "0.2.11.9003"
+name = "jott"
+version = "0.2.11.9004"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [
-    { name = "Matt Dray", email = "mwdray+jot@gmail.com" }
+    { name = "Matt Dray", email = "mwdray+jott@gmail.com" }
 ]
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
@@ -21,10 +21,10 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/matt-dray/jot"
+Repository = "https://github.com/matt-dray/jott"
 
 [project.scripts]
-jot = "jot.cli:main"
+jott = "jott.cli:main"
 
 [project.optional-dependencies]
 dev = [

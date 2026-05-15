@@ -5,12 +5,12 @@ CLI entry with argument parser.
 import argparse
 from dateutil.parser import parse as date_time
 from importlib.metadata import version
-from jot.core import (
-    create_jot_file,
+from jott.core import (
+    create_jott_file,
     get_config_path,
     list_jottings,
     print_paths,
-    read_jot_path,
+    read_jott_path,
     search_jottings,
     write_to_config,
     write_jotting,
@@ -19,21 +19,21 @@ from jot.core import (
 
 def main() -> None:
     """
-    CLI entry point for jot.
+    CLI entry point for jott.
 
     Returns:
         None: Performs action depending on user input.
     """
     parser = argparse.ArgumentParser(
-        prog="jot",
+        prog="jott",
         description="Minimal opinionated Python CLI to jot timestamped thoughts.",
         epilog=(
             "examples:\n"
-            "  jot 'ate an apple'    add a new jotting\n"
-            "  jot -l 5              show last 5 jottings\n"
-            "  jot -s apple          search for 'apple' in jottings\n"
-            "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
-            f"\nsource: https://github.com/matt-dray/jot (v{version('jot')})"
+            "  jott 'ate an apple'    add a new jotting\n"
+            "  jott -l 5              show last 5 jottings\n"
+            "  jott -s apple          search for 'apple' in jottings\n"
+            "  jott -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
+            f"\nsource: https://github.com/matt-dray/jot (v{version('jott')})"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -41,9 +41,9 @@ def main() -> None:
         "text",
         nargs="?",
         type=str,
-        help="text to write to file",
+        help="text to write to jott file",
     )
-    parser.add_argument("-v", "--version", action="version", version=version("jot"))
+    parser.add_argument("-v", "--version", action="version", version=version("jott"))
     parser.add_argument(
         "-l",
         "--list",
@@ -82,28 +82,28 @@ def main() -> None:
         "-w",
         "--where",
         action="store_true",
-        help="print locations of config and jot files",
+        help="print paths to config and jott files",
     )
     args = parser.parse_args()
 
     config_path = get_config_path()
 
     if config_path.exists():
-        jot_path = read_jot_path(config_path)
+        jott_path = read_jott_path(config_path)
     else:
-        jot_path = create_jot_file()
-        write_to_config(config_path, jot_path)
+        jott_path = create_jott_file()
+        write_to_config(config_path, jott_path)
 
     if args.where:
         print_paths()
     elif args.search:
-        search_jottings(jot_path, args.search, args.list, args.from_date, args.to_date)
+        search_jottings(jott_path, args.search, args.list, args.from_date, args.to_date)
     elif args.list is not None:
-        list_jottings(jot_path, args.list, args.from_date, args.to_date)
+        list_jottings(jott_path, args.list, args.from_date, args.to_date)
     elif args.from_date is not None or args.to_date is not None:
-        list_jottings(jot_path, None, args.from_date, args.to_date)
+        list_jottings(jott_path, None, args.from_date, args.to_date)
     elif args.text:
-        write_jotting(jot_path, args)
+        write_jotting(jott_path, args)
     else:
         parser.print_help()
 
