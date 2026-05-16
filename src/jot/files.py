@@ -1,0 +1,137 @@
+"""
+Read and write config and jot files.
+"""
+
+import argparse
+import datetime as dt
+import json
+from pathlib import Path
+from platformdirs import user_config_path
+
+from rich.console import Console
+from rich.prompt import Prompt
+
+console = Console()
+
+
+def get_config_path(
+    config_file: str = "config.json", config_dir: Path | None = None
+) -> Path:
+    """
+    Build the path to the config file in the user's config directory.
+
+    Args:
+        config_file (str): The file name for the config file.
+        config_dir (Path): The user's config directory.
+
+    Returns:
+        Path: The file path to the config file.
+    """
+    stub = config_dir if config_dir is not None else user_config_path("jot")
+    config_path = stub / config_file
+    return config_path
+
+
+def read_jot_path(config_path: Path) -> Path:
+    """
+    Read the jot file path from the config file.
+
+    Args:
+        config_path (Path): The path to the config file.
+
+    Returns:
+        Path: The file path to the jot file.
+    """
+    config_text = config_path.read_text(encoding="utf-8")
+    config_json = json.loads(config_text)
+    jot_path_text = config_json["JOT_PATH"]
+    jot_path = Path(jot_path_text)
+    return jot_path
+
+
+def write_to_config(config_path: Path, jot_path: Path) -> None:
+    """
+    Write the jot file path to the config file.
+
+    Args:
+        config_path (Path): The path to the config file.
+        jot_path (Path): The path to the jot file.
+
+    Returns:
+        None: Prints output.
+    """
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    json_dict = {"JOT_PATH": jot_path.as_posix()}
+    with config_path.open("w", encoding="utf-8") as f:
+        json.dump(json_dict, f)
+    console.print(f":white_check_mark: Created config file at [green]{config_path}[/]")
+    console.print(f":white_check_mark: Set JOT_PATH variable to [green]{jot_path}[/]")
+
+
+def write_jotting(
+    jot_path: Path, args: argparse.Namespace, now_dt=dt.datetime.now
+) -> None:
+    """
+    Prepend a new jotting with a timestamp to the jot file.
+
+    Args:
+        jot_path (Path): The path to the jot file.
+        args (argparse.Namespace): Arguments collected from the argument parser.
+        now_dt (dt.datetime): Datetime of execution.
+
+    Returns:
+        None: Prints output.
+    """
+    jot_file_content = ""
+
+    if jot_path.exists():
+        jot_file_content = jot_path.read_text(encoding="utf-8")
+    else:
+        jot_path.write_text("", encoding="utf-8")
+        console.print(f":white_check_mark: Created jot file at [green]{jot_path}[/]")
+
+    timestamp = now_dt().strftime("%Y-%m-%d %H:%M")
+    jot_path.write_text(
+        f"[{timestamp}] {args.text}\n{jot_file_content}",
+        encoding="utf-8",
+    )
+    console.print(f":white_check_mark: Jotted at {timestamp}")
+
+
+def create_jot_file(prompt_user=Prompt.ask) -> Path:
+    """
+    Prompt the user for a jot file path and create it.
+
+    Args:
+        prompt_user (Prompt.ask): Prompt the user for input.
+
+    Returns:
+        Path: The file path to the jot file.
+    """
+    while True:
+        jot_path_str = prompt_user(":pencil: Provide a path for the jot file (.txt)")
+
+        if Path(jot_path_str).suffix != ".txt":
+            console.print(":x: You must provide a .txt file path. Try again.")
+            continue
+
+        jot_path = Path(jot_path_str).expanduser().resolve()
+
+        if jot_path.exists():
+            confirm = prompt_user(":exclamation: File already exists. Use it? y/n")
+            if confirm.lower() != "y":
+                continue
+        else:
+            jot_path.parent.mkdir(parents=True, exist_ok=True)
+            jot_path.touch()
+
+        return jot_path
+
+
+__all__ = [
+    "create_jot_file",
+    "get_config_path",
+    "read_jot_path",
+    "write_to_config",
+    "write_jotting",
+]

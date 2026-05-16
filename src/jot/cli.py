@@ -5,15 +5,19 @@ CLI entry with argument parser.
 import argparse
 from dateutil.parser import parse as date_time
 from importlib.metadata import version
-from jot.core import (
+
+from .files import (
     create_jot_file,
     get_config_path,
-    list_jottings,
-    print_paths,
     read_jot_path,
-    search_jottings,
     write_to_config,
     write_jotting,
+)
+
+from .options import (
+    list_jottings,
+    print_paths,
+    search_jottings,
 )
 
 
