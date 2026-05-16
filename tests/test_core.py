@@ -5,11 +5,12 @@ from pathlib import Path
 
 import pytest
 
-import jot.core as core
+import jot.files as files
+import jot.options as options
 
 
 def test_get_config_path(tmp_path: Path):
-    path = core.get_config_path(
+    path = files.get_config_path(
         config_file="config.json",
         config_dir=tmp_path,
     )
@@ -20,11 +21,11 @@ def test_write_and_read_config(tmp_path: Path):
     config = tmp_path / "config.json"
     jot = tmp_path / "jot.txt"
 
-    core.write_to_config(config, jot)
+    files.write_to_config(config, jot)
 
     data = json.loads(config.read_text())
     assert data["JOT_PATH"] == jot.as_posix()
-    assert core.read_jot_path(config) == jot
+    assert files.read_jot_path(config) == jot
 
 
 def test_write_jotting_prepends(tmp_path: Path):
@@ -36,7 +37,7 @@ def test_write_jotting_prepends(tmp_path: Path):
 
     args = argparse.Namespace(text="spam")
 
-    core.write_jotting(jot, args, now_dt=fixed_now)
+    files.write_jotting(jot, args, now_dt=fixed_now)
 
     content = jot.read_text()
     assert content.startswith("[2025-12-25 01:00] spam")
@@ -47,7 +48,7 @@ def test_create_jot_file(tmp_path: Path):
     def prompt(_):
         return str(tmp_path / "spam.txt")
 
-    jot = core.create_jot_file(prompt_user=prompt)
+    jot = files.create_jot_file(prompt_user=prompt)
 
     assert jot.exists()
     assert jot.name == "spam.txt"
@@ -58,7 +59,7 @@ def test_check_in_period_valid():
     start = dt.datetime(2025, 12, 1)
     end = dt.datetime(2025, 12, 31)
 
-    assert core.check_in_period(line, start, end)
+    assert options.check_in_period(line, start, end)
 
 
 @pytest.mark.parametrize(
@@ -70,7 +71,7 @@ def test_check_in_period_valid():
     ],
 )
 def test_check_in_period_invalid(line):
-    assert core.check_in_period(line, None, None) is False
+    assert options.check_in_period(line, None, None) is False
 
 
 def test_list_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
@@ -81,7 +82,7 @@ def test_list_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
         "[2025-12-01 09:00] lobster thermidor\n"
     )
 
-    core.list_jottings(jot, limit=2)
+    options.list_jottings(jot, limit=2)
 
     out = capsys.readouterr().out
     assert "egg and spam" in out
@@ -97,7 +98,7 @@ def test_search_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
         "[2025-12-01 09:00] lobster thermidor\n"
     )
 
-    core.search_jottings(jot, "egg")
+    options.search_jottings(jot, "egg")
 
     out = capsys.readouterr().out
     assert "egg" in out
@@ -105,7 +106,7 @@ def test_search_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
 
 
 def test_print_paths_missing_config(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
-    core.print_paths(config_dir=tmp_path)
+    options.print_paths(config_dir=tmp_path)
 
     out = capsys.readouterr().out
     assert "Couldn't find the config file" in out
