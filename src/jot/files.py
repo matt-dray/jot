@@ -49,23 +49,47 @@ def read_jot_path(config_path: Path) -> Path:
     return jot_path
 
 
-def write_to_config(config_path: Path, jot_path: Path) -> None:
+def write_to_config(
+    config_path: Path, key: str, value: str, prompt_user=Prompt.ask
+) -> None:
     """
-    Write the jot file path to the config file.
+    Write a key-value pair to the config file.
+
+    Any key-value is accepted, but JOT_PATH is required and GIST_ID is optional.
 
     Args:
         config_path (Path): The path to the config file.
-        jot_path (Path): The path to the jot file.
+        key (str): The JSON key to be written to the config file.
+        value (ste): The value for the JSON key to be written to the config file.
+        prompt_user (Prompt.ask): Prompt the user for input.
 
     Returns:
-        None: Prints output.
+        None: Writes to file and prints output.
     """
+    if config_path.exists():
+        with config_path.open("r", encoding="utf-8") as f:
+            config = json.load(f)
+    else:
+        config = {}
+
+    if key in config:
+        overwrite = prompt_user(
+            f":exclamation: [green]{key}[/] is already set to [green]{config[key]}[/]. Overwrite?",
+            choices=["y", "n"],
+        )
+        if overwrite == "n":
+            console.print(
+                f":x: [green]{key}[/] will not be overwritten in the config file. Exiting."
+            )
+            return
+
+    config[key] = value
+
     config_path.parent.mkdir(parents=True, exist_ok=True)
-    json_dict = {"JOT_PATH": jot_path.as_posix()}
     with config_path.open("w", encoding="utf-8") as f:
-        json.dump(json_dict, f)
-    console.print(f":white_check_mark: Created config file at [green]{config_path}[/]")
-    console.print(f":white_check_mark: Set JOT_PATH variable to [green]{jot_path}[/]")
+        json.dump(config, f)
+
+    console.print(f":white_check_mark: Set [green]{key}[/] to [green]{value}[/]")
 
 
 def write_jotting(
