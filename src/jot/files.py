@@ -55,7 +55,7 @@ def write_to_config(
     """
     Write a key-value pair to the config file.
 
-    Any key-value is accepted, but JOT_PATH is required and GIST_ID is optional.
+    Any key-value is accepted, but JOT_PATH is required by jot and GIST_ID is optional.
 
     Args:
         config_path (Path): The path to the config file.
