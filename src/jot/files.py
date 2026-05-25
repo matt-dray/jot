@@ -142,8 +142,11 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
         jot_path = Path(jot_path_str).expanduser().resolve()
 
         if jot_path.exists():
-            confirm = prompt_user(":exclamation: File already exists. Use it? y/n")
-            if confirm.lower() != "y":
+            confirm = prompt_user(
+                ":exclamation: File already exists. Use it?",
+                choices=["y", "n"],
+            )
+            if confirm.lower() == "n":
                 continue
         else:
             jot_path.parent.mkdir(parents=True, exist_ok=True)
