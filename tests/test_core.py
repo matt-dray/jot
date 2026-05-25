@@ -21,7 +21,7 @@ def test_write_and_read_config(tmp_path: Path):
     config = tmp_path / "config.json"
     jot = tmp_path / "jot.txt"
 
-    files.write_to_config(config, jot)
+    files.write_to_config(config, "JOT_PATH", jot.as_posix())
 
     data = json.loads(config.read_text())
     assert data["JOT_PATH"] == jot.as_posix()

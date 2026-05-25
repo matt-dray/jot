@@ -96,7 +96,7 @@ def main() -> None:
         jot_path = read_jot_path(config_path)
     else:
         jot_path = create_jot_file()
-        write_to_config(config_path, jot_path)
+        write_to_config(config_path, "JOT_PATH", jot_path.as_posix())
 
     if args.where:
         print_paths()
