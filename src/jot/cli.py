@@ -15,11 +15,7 @@ from .files import (
     write_jotting,
 )
 
-from .options import (
-    list_jottings,
-    print_paths,
-    search_jottings,
-)
+from .options import list_jottings, print_paths, search_jottings, upload_jottings
 
 
 def main() -> None:
@@ -38,6 +34,7 @@ def main() -> None:
             "  jot -l 5              show last 5 jottings\n"
             "  jot -s apple          search for 'apple' in jottings\n"
             "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
+            "  jot -u                upload to a GitHub gist (requires gh login)\n"
             f"\nsource: https://github.com/matt-dray/jot (v{version('jot')})"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -89,6 +86,12 @@ def main() -> None:
         action="store_true",
         help="print locations of config and jot files",
     )
+    parser.add_argument(
+        "-u",
+        "--upload",
+        action="store_true",
+        help="upload jottings to a GitHub gist",
+    )
     args = parser.parse_args()
 
     config_path = get_config_path()
@@ -108,6 +111,8 @@ def main() -> None:
         list_jottings(jot_path, args.list, args.from_date, args.to_date)
     elif args.from_date is not None or args.to_date is not None:
         list_jottings(jot_path, None, args.from_date, args.to_date)
+    elif args.upload:
+        upload_jottings(config_path)
     elif args.text:
         write_jotting(jot_path, args)
     else:
