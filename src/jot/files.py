@@ -32,21 +32,23 @@ def get_config_path(
     return config_path
 
 
-def read_jot_path(config_path: Path) -> Path:
+def read_config(config_path: Path, key: str) -> str:
     """
-    Read the jot file path from the config file.
+    Read the value from a key in the config file.
 
     Args:
         config_path (Path): The path to the config file.
+        key (str): The key to read. Could be JOT_PATH or GIST_ID.
 
     Returns:
-        Path: The file path to the jot file.
+         str: Value for the config key, or None if not found.
     """
     config_text = config_path.read_text(encoding="utf-8")
     config_json = json.loads(config_text)
-    jot_path_text = config_json["JOT_PATH"]
-    jot_path = Path(jot_path_text)
-    return jot_path
+    value = config_json.get(key)
+    if value is None:
+        raise KeyError(f"{key} not found in config.")
+    return value
 
 
 def write_to_config(
@@ -158,7 +160,7 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
 __all__ = [
     "create_jot_file",
     "get_config_path",
-    "read_jot_path",
+    "read_config",
     "write_to_config",
     "write_jotting",
 ]

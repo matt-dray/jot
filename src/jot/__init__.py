@@ -5,7 +5,7 @@ Minimal opinionated Python CLI to jot timestamped thoughts.
 from .files import (
     create_jot_file,
     get_config_path,
-    read_jot_path,
+    read_config,
     write_to_config,
     write_jotting,
 )
@@ -23,7 +23,7 @@ __all__ = [
     "get_config_path",
     "list_jottings",
     "print_paths",
-    "read_jot_path",
+    "read_config",
     "search_jottings",
     "write_to_config",
     "write_jotting",
