@@ -8,7 +8,7 @@ import re
 
 from .files import (
     get_config_path,
-    read_jot_path,
+    read_config,
 )
 
 from rich.console import Console
@@ -88,13 +88,13 @@ def print_paths(config_dir: Path | None = None) -> None:
     Print the expected path to the config file and read the jot path from it.
 
     Args:
-        config_file (str): The file name for the config file.
         config_dir (Path): The user's config directory.
 
     Returns:
         None: Prints output.
     """
     config_path = get_config_path(config_dir=config_dir)
+
     if not config_path.exists():
         console.print(
             f":x: Couldn't find the config file in the expected location: [red]{config_path}[/]"
@@ -103,7 +103,9 @@ def print_paths(config_dir: Path | None = None) -> None:
 
     console.print(f":round_pushpin: Config file: [green]{config_path}[/]")
 
-    jot_path = read_jot_path(config_path)
+    jot_path = read_config(config_path, "JOT_PATH")
+    jot_path = Path(jot_path)
+
     if not jot_path.exists():
         console.print(
             f":x: Couldn't find the jot file in the expected location: [red]{jot_path}[/]"
