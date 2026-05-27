@@ -57,8 +57,6 @@ def write_to_config(
     """
     Write a key-value pair to the config file.
 
-    Any key-value is accepted, but JOT_PATH is required by jot and GIST_ID is optional.
-
     Args:
         config_path (Path): The path to the config file.
         key (str): The JSON key to be written to the config file.
@@ -67,6 +65,9 @@ def write_to_config(
 
     Returns:
         None: Writes to file and prints output.
+
+    Notes:
+        Any key-value is accepted, but JOT_PATH is required by jot and GIST_ID is optional.
     """
     if config_path.exists():
         with config_path.open("r", encoding="utf-8") as f:
