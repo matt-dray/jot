@@ -38,7 +38,7 @@ def main() -> None:
             "  jot -l 5              show last 5 jottings\n"
             "  jot -s apple          search for 'apple' in jottings\n"
             "  jot -s apple -l 3     search for 'apple' and limit to last 3 jottings\n"
-            f"\nsource: https://github.com/matt-dray/jot (v{version('jot')})"
+            f"\nsource: https://github.com/matt-dray/jot (v{version('jot-cli')})"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -48,7 +48,7 @@ def main() -> None:
         type=str,
         help="text to write to file",
     )
-    parser.add_argument("-v", "--version", action="version", version=version("jot"))
+    parser.add_argument("-v", "--version", action="version", version=version("jot-cli"))
     parser.add_argument(
         "-l",
         "--list",
