@@ -34,7 +34,7 @@ wheels = [
 
 [[package]]
 name = "jot"
-version = "0.2.11.9006"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "platformdirs" },
