@@ -46,14 +46,27 @@ Each jotting is timestamped and prepended to your text file:
 
 ### Options
 
-You can review your jottings using the provided options. For example:
+You can review your jottings using the provided options.
+For example:
 
 * `jot -l 3` to <u>l</u>ist the last three
-* `jot -s apple -l 1` to <u>s</u>earch for 'apple' and <u>l</u>imit to the most recent one
+* `jot -s apple -l 1` to <u>s</u>earch for 'apple' and <u>l</u>ist the most recent one
 * `jot -s "[^pine]apple"` to <u>s</u>earch for 'apple' with a regular expression that excludes 'pineapple'
 * `jot -f 20250825 -t 20250828` to return jottings <u>f</u>rom 25 Aug 2025 (inclusive) and <u>t</u>o 28 Aug 2025 (exclusive)
 
-And for information:
+You can back up your jottings to [a GitHub gist](https://gist.github.com/) using GitHub's CLI.
+To do this:
+
+1. Download [the gh CLI](https://cli.github.com/).
+1. Login with `gh auth login`.
+1. Create a new [GitHub gist](https://gist.github.com/).
+1. Write some jottings with e.g. `jot "ate an apple"`.
+1. Run `jot -u` to <u>u</u>pload the contents of your jot file to the gist.
+
+You'll be asked for a gist ID when you first run `jot -u`.
+This is the 32-character string found in the gist's URL or with `gh gist list`.
+
+There are also flags to get meta-information:
 
 * `jot -w` to show <u>w</u>here the config and jot files are
 * `jot -v` to get the <u>v</u>ersion number

@@ -15,6 +15,7 @@ from .options import (
     list_jottings,
     print_paths,
     search_jottings,
+    upload_jottings,
 )
 
 __all__ = [
@@ -25,6 +26,8 @@ __all__ = [
     "print_paths",
     "read_config",
     "search_jottings",
-    "write_to_config",
+    "upload_jottings,write_to_config",
     "write_jotting",
+    "write_to_config",
+    "upload_jottings",
 ]
