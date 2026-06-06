@@ -1,6 +1,6 @@
 [project]
-name = "jot"
-version = "0.2.11.9007"
+name = "jot-cli"
+version = "0.3.0"
 description = "Minimal opinionated Python CLI to jot timestamped thoughts."
 readme = "README.md"
 authors = [
@@ -34,3 +34,6 @@ dev = [
 [build-system]
 requires = ["uv_build>=0.11.11,<0.12"]
 build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "jot"

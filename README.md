@@ -13,8 +13,12 @@ Minimal opinionated Python command-line interface (CLI) to jot timestamped thoug
 Recommended:
 
 1. Install [uv](https://docs.astral.sh/uv/).
-2. Run `uv tool install git+https://github.com/matt-dray/jot` in a terminal.
-3. Update with `uv tool update jot`.
+2. Run `uv tool install jot-cli` in a terminal.
+3. Update with `uv tool upgrade jot-cli` when there's a new release.
+
+To install the current development version: `uv tool install git+https://github.com/matt-dray/jot`.
+
+Alternatively you can use [pipx](https://pipx.pypa.io): `pipx install jot-cli`.
 
 Requires Python >=3.10. 
 
@@ -55,20 +59,7 @@ And for information:
 * `jot -v` to get the <u>v</u>ersion number
 * `jot -h` to show the <u>h</u>elp file, which includes possible option combinations
 
-## Python
-
-jot is CLI-first, but you can also import its functions to a Python session.
-For example, assuming you already set up a jot file:
-
-```python
-from jot import *
-config_path = get_config_path()
-jot_path = read_jot_path(config_path)
-search_jottings(jot_path, "apple")
-```
-
 ## Notes
 
 * I developed this tool to help me remember the tasks I've done during my day job and later reflect.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
-* [v0.1.0](https://github.com/matt-dray/jot/releases/tag/v0.1.0) developed via LLM, [v0.2.0](https://github.com/matt-dray/jot/compare/v0.1.0...v0.2.0) rewritten with my brain (you can [read about it](https://www.rostrum.blog/posts/2025-08-25-jot/)).

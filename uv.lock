@@ -33,8 +33,8 @@ wheels = [
 ]
 
 [[package]]
-name = "jot"
-version = "0.2.11.9007"
+name = "jot-cli"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "platformdirs" },
