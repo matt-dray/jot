@@ -32,7 +32,7 @@ Open a terminal and write a jotting:
 jot "ate an apple"
 ```
 
-The first time you run `jot`, you'll be prompted for a path to a text file where your jottings will be written.
+The first time you run `jot`, you'll be prompted for a path to a text file (`.txt` or `.md`) where your jottings will be written.
 The file path will be stored under the `JOT_PATH` key in a `config.json` file, which is saved to the OS-dependent location resolved by `platformdirs.user_config_path("jot")`.
 
 Each jotting is timestamped and prepended to your text file:

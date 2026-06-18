@@ -136,10 +136,12 @@ def create_jot_file(prompt_user=Prompt.ask) -> Path:
         Path: The file path to the jot file.
     """
     while True:
-        jot_path_str = prompt_user(":pencil: Provide a path for the jot file (.txt)")
+        jot_path_str = prompt_user(
+            ":pencil: Provide a path for the jot file (.txt or .md)"
+        )
 
-        if Path(jot_path_str).suffix != ".txt":
-            console.print(":x: You must provide a .txt file path. Try again.")
+        if Path(jot_path_str).suffix not in [".txt", ".md"]:
+            console.print(":x: You must provide a .txt or .md file path. Try again.")
             continue
 
         jot_path = Path(jot_path_str).expanduser().resolve()
