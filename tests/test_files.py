@@ -41,7 +41,7 @@ def test_write_jotting_prepends(tmp_path: Path):
     assert "egg" in content
 
 
-def test_create_jot_file(tmp_path: Path):
+def test_create_jot_file_txt(tmp_path: Path):
     def prompt(_):
         return str(tmp_path / "spam.txt")
 
@@ -49,3 +49,13 @@ def test_create_jot_file(tmp_path: Path):
 
     assert jot.exists()
     assert jot.name == "spam.txt"
+
+
+def test_create_jot_file_md(tmp_path: Path):
+    def prompt(_):
+        return str(tmp_path / "spam.md")
+
+    jot = files.create_jot_file(prompt_user=prompt)
+
+    assert jot.exists()
+    assert jot.name == "spam.md"
