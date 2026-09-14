@@ -41,7 +41,7 @@ def main() -> None:
     )
     parser.add_argument(
         "text",
-        nargs="?",
+        nargs="*",
         type=str,
         help="text to write to file",
     )
@@ -114,6 +114,7 @@ def main() -> None:
     elif args.upload:
         upload_jottings(config_path)
     elif args.text:
+        args.text = " ".join(args.text)
         write_jotting(jot_path, args)
     else:
         parser.print_help()
