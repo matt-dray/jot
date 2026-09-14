@@ -119,7 +119,7 @@ def write_jotting(
 
     timestamp = now_dt().strftime("%Y-%m-%d %H:%M")
     jot_path.write_text(
-        f"[{timestamp}] {args.text}\n{jot_file_content}",
+        f"[{timestamp}] {args.text.replace("\n", " ")}\n{jot_file_content}",
         encoding="utf-8",
     )
     console.print(f":white_check_mark: Jotted at {timestamp}")

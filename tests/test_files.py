@@ -30,6 +30,18 @@ def test_write_jotting_prepends(tmp_path: Path):
         return dt.datetime(2025, 12, 25, 1, 0)
 
     jot = tmp_path / "jot.txt"
+
+    args = argparse.Namespace(text="foo\nbar")
+    files.write_jotting(jot, args, now_dt=fixed_now)
+
+    content = jot.read_text()
+    assert content == "[2025-12-25 01:00] foo bar\n"
+
+def test_multiline_jotting(tmp_path: Path):
+    def fixed_now():
+        return dt.datetime(2025, 12, 25, 1, 0)
+
+    jot = tmp_path / "jot.txt"
     jot.write_text("[2025-12-24 23:00] egg\n")
 
     args = argparse.Namespace(text="spam")
