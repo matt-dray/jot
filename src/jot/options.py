@@ -34,20 +34,20 @@ def check_in_period(
     """
     if not line.startswith("[") or "]" not in line:
         return False
-    
+
     stamp = line[1 : line.index("]")]
-    
+
     try:
         local_tz = tzlocal()
         date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M").replace(tzinfo=local_tz)
     except ValueError:
         return False
-    
+
     if period_from is not None and date < period_from:
         return False
-    if period_to is not None and date > period_to: # noqa: SIM103
+    if period_to is not None and date > period_to:  # noqa: SIM103
         return False
-    return True  
+    return True
 
 
 def list_jottings(
