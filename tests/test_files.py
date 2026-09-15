@@ -3,7 +3,7 @@ import datetime as dt
 import json
 from pathlib import Path
 
-import jot.files as files
+from jot import files
 
 
 def test_get_config_path(tmp_path: Path):

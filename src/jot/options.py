@@ -3,16 +3,16 @@ Options available to the CLI user.
 """
 
 import datetime as dt
-from pathlib import Path
 import re
 import shutil
 import socket
 import subprocess
-
-from .files import get_config_path, read_config, write_to_config
+from pathlib import Path
 
 from rich.console import Console
 from rich.prompt import Prompt
+
+from .files import get_config_path, read_config, write_to_config
 
 console = Console()
 

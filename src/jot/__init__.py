@@ -6,10 +6,9 @@ from .files import (
     create_jot_file,
     get_config_path,
     read_config,
-    write_to_config,
     write_jotting,
+    write_to_config,
 )
-
 from .options import (
     check_in_period,
     list_jottings,
@@ -26,8 +25,8 @@ __all__ = [
     "print_paths",
     "read_config",
     "search_jottings",
+    "upload_jottings",
     "upload_jottings,write_to_config",
     "write_jotting",
     "write_to_config",
-    "upload_jottings",
 ]

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-import jot.options as options
+from jot import options
 
 
 @pytest.mark.parametrize(
