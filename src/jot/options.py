@@ -9,6 +9,7 @@ import socket
 import subprocess
 from pathlib import Path
 
+from dateutil.tz import tzlocal
 from rich.console import Console
 from rich.prompt import Prompt
 
@@ -31,11 +32,13 @@ def check_in_period(
     Returns:
         bool: Does the jotting fall in the time period?
     """
+    local_tz = tzlocal()
+
     if not line.startswith("[") or "]" not in line:
         return False
     stamp = line[1 : line.index("]")]
     try:
-        date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M")
+        date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M").replace(tzinfo=local_tz)
     except ValueError:
         return False
     if period_from is not None and date < period_from:

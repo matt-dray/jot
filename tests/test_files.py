@@ -3,6 +3,8 @@ import datetime as dt
 import json
 from pathlib import Path
 
+from dateutil.tz import tzlocal
+
 from jot import files
 
 
@@ -27,7 +29,8 @@ def test_write_and_read_config(tmp_path: Path):
 
 def test_multiline_jotting(tmp_path: Path):
     def fixed_now():
-        return dt.datetime(2025, 12, 25, 1, 0)
+        local_tz = tzlocal()
+        return dt.datetime(2025, 12, 25, 1, 0, tzinfo=local_tz)
 
     jot = tmp_path / "jot.txt"
 
@@ -40,7 +43,8 @@ def test_multiline_jotting(tmp_path: Path):
 
 def test_write_jotting_prepends(tmp_path: Path):
     def fixed_now():
-        return dt.datetime(2025, 12, 25, 1, 0)
+        local_tz = tzlocal()
+        return dt.datetime(2025, 12, 25, 1, 0, tzinfo=local_tz)
 
     jot = tmp_path / "jot.txt"
     jot.write_text("[2025-12-24 23:00] egg\n")
