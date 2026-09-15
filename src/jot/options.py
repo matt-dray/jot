@@ -183,7 +183,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
         console.print(":x: No internet connection. Can't upload.")
         return
 
-    result = subprocess.run(["gh", "auth", "status"], capture_output=True)
+    result = subprocess.run(["gh", "auth", "status"], capture_output=True, check=True)
     if result.returncode != 0:
         console.print(":x: Not logged in to GitHub CLI. Run 'gh auth login' first.")
         return
@@ -206,6 +206,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
     result = subprocess.run(
         ["gh", "gist", "view", gist_id],
         capture_output=True,
+        check=True,
     )
     if result.returncode != 0:
         console.print(f":x: Couldn't find a gist with ID {gist_id}.")
@@ -220,7 +221,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
         )
         return
 
-    result = subprocess.run(["gh", "gist", "edit", gist_id, jot_path])
+    result = subprocess.run(["gh", "gist", "edit", gist_id, jot_path], check=True)
     if result.returncode != 0:
         console.print(":x: Upload failed.")
         return
