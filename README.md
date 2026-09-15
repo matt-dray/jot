@@ -29,7 +29,7 @@ Requires Python >=3.10.
 Open a terminal and write a jotting:
 
 ```bash
-jot "ate an apple"
+jot ate an apple
 ```
 
 The first time you run `jot`, you'll be prompted for a path to a text file (`.txt` or `.md`) where your jottings will be written.
@@ -43,6 +43,9 @@ Each jotting is timestamped and prepended to your text file:
 [2025-08-26 11:09] ate a pineapple
 [2025-08-25 10:40] ate an apple and a pear
 ```
+
+You can quote your text input to preserve special characters.
+Note that line breaks will be replaced with a space.
 
 ### Options
 
