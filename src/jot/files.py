@@ -6,8 +6,8 @@ import argparse
 import datetime as dt
 import json
 from pathlib import Path
-from platformdirs import user_config_path
 
+from platformdirs import user_config_path
 from rich.console import Console
 from rich.prompt import Prompt
 
@@ -165,6 +165,6 @@ __all__ = [
     "create_jot_file",
     "get_config_path",
     "read_config",
-    "write_to_config",
     "write_jotting",
+    "write_to_config",
 ]

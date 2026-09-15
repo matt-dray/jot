@@ -2,8 +2,9 @@ import datetime as dt
 from pathlib import Path
 
 import pytest
+from dateutil.tz import tzlocal
 
-import jot.options as options
+from jot import options
 
 
 @pytest.mark.parametrize(
@@ -50,9 +51,10 @@ def test_search_jottings(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
 
 
 def test_check_in_period_valid():
+    local_tz = tzlocal()
     line = "[2025-12-25 09:00] spam"
-    start = dt.datetime(2025, 12, 1)
-    end = dt.datetime(2025, 12, 31)
+    start = dt.datetime(2025, 12, 1, tzinfo=local_tz)
+    end = dt.datetime(2025, 12, 31, tzinfo=local_tz)
 
     assert options.check_in_period(line, start, end)
 

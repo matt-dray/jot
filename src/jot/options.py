@@ -3,16 +3,17 @@ Options available to the CLI user.
 """
 
 import datetime as dt
-from pathlib import Path
 import re
 import shutil
 import socket
 import subprocess
+from pathlib import Path
 
-from .files import get_config_path, read_config, write_to_config
-
+from dateutil.tz import tzlocal
 from rich.console import Console
 from rich.prompt import Prompt
+
+from .files import get_config_path, read_config, write_to_config
 
 console = Console()
 
@@ -33,14 +34,18 @@ def check_in_period(
     """
     if not line.startswith("[") or "]" not in line:
         return False
+
     stamp = line[1 : line.index("]")]
+
     try:
-        date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M")
+        local_tz = tzlocal()
+        date = dt.datetime.strptime(stamp, "%Y-%m-%d %H:%M").replace(tzinfo=local_tz)
     except ValueError:
         return False
+
     if period_from is not None and date < period_from:
         return False
-    if period_to is not None and date > period_to:
+    if period_to is not None and date > period_to:  # noqa: SIM103
         return False
     return True
 
@@ -183,7 +188,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
         console.print(":x: No internet connection. Can't upload.")
         return
 
-    result = subprocess.run(["gh", "auth", "status"], capture_output=True)
+    result = subprocess.run(["gh", "auth", "status"], capture_output=True, check=True)
     if result.returncode != 0:
         console.print(":x: Not logged in to GitHub CLI. Run 'gh auth login' first.")
         return
@@ -206,6 +211,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
     result = subprocess.run(
         ["gh", "gist", "view", gist_id],
         capture_output=True,
+        check=True,
     )
     if result.returncode != 0:
         console.print(f":x: Couldn't find a gist with ID {gist_id}.")
@@ -220,7 +226,7 @@ def upload_jottings(config_path: Path, prompt_user=Prompt.ask) -> None:
         )
         return
 
-    result = subprocess.run(["gh", "gist", "edit", gist_id, jot_path])
+    result = subprocess.run(["gh", "gist", "edit", gist_id, jot_path], check=True)
     if result.returncode != 0:
         console.print(":x: Upload failed.")
         return

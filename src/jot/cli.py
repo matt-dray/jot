@@ -3,18 +3,18 @@ CLI entry with argument parser.
 """
 
 import argparse
-from dateutil.parser import parse as date_time
 from importlib.metadata import version
 from pathlib import Path
+
+from dateutil.parser import parse as date_time
 
 from .files import (
     create_jot_file,
     get_config_path,
     read_config,
-    write_to_config,
     write_jotting,
+    write_to_config,
 )
-
 from .options import list_jottings, print_paths, search_jottings, upload_jottings
 
 
