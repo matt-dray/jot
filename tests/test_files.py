@@ -37,6 +37,7 @@ def test_multiline_jotting(tmp_path: Path):
     content = jot.read_text()
     assert content == "[2025-12-25 01:00] foo bar\n"
 
+
 def test_write_jotting_prepends(tmp_path: Path):
     def fixed_now():
         return dt.datetime(2025, 12, 25, 1, 0)
