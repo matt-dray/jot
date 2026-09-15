@@ -42,7 +42,8 @@ def check_in_period(
         return False
     if period_to is not None and date > period_to:
         return False
-    return True
+    if not (period_to is not None and date > period_to):
+        return True
 
 
 def list_jottings(
