@@ -1,6 +1,7 @@
 # jot <a href="https://www.github.com/matt-dray/jot"><img src='https://www.rostrum.blog/posts/2025-08-30-jot-options/resources/jot.png' height='150px' align='right' alt='Terribly drawn image of the word "jot" in cursive with a pencil at the end of the letter "t". The dot of the letter "i" is a red love heart.'></a>
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![PyPI release](https://img.shields.io/pypi/v/jot-cli)](https://pypi.org/project/jot-cli/)
 [![Quality](https://github.com/matt-dray/jot/actions/workflows/quality.yaml/badge.svg)](https://github.com/matt-dray/jot/actions/workflows/quality.yaml)
 [![Tests](https://github.com/matt-dray/jot/actions/workflows/tests.yaml/badge.svg)](https://github.com/matt-dray/jot/actions/workflows/tests.yaml)
 [![Blog
@@ -9,6 +10,8 @@ posts](https://img.shields.io/badge/rostrum.blog-black?style=flat&labelColor=00f
 Minimal opinionated Python command-line interface (CLI) to jot timestamped thoughts.
 
 ## Install
+
+jot is available as [jot-cli from PyPI](https://pypi.org/project/jot-cli/).
 
 Recommended:
 
