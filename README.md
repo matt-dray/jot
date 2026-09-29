@@ -63,7 +63,7 @@ To do this:
 1. Download [the gh CLI](https://cli.github.com/).
 1. Login with `gh auth login`.
 1. Create a new [GitHub gist](https://gist.github.com/).
-1. Write some jottings with e.g. `jot "ate an apple"`.
+1. Write some jottings with e.g. `jot ate an apple`.
 1. Run `jot -u` to <u>u</u>pload the contents of your jot file to the gist.
 
 You'll be asked for a gist ID when you first run `jot -u`.
@@ -77,5 +77,6 @@ There are also flags to get meta-information:
 
 ## Notes
 
-* I developed this tool to help me remember the tasks I've done during my day job and later reflect.
+* I developed this tool to help me remember and reflect on the tasks I've done during my day job.
 * Your kilometerage may vary; [leave an issue](https://github.com/matt-dray/jot/issues) if you find bugs or have suggestions.
+* You can read more about the development of the tool in [a series of blog posts](https://www.rostrum.blog/index.html#category=jot).
