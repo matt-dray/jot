@@ -24,6 +24,7 @@ def date_time(value: str) -> dt.datetime:
     """Make input dates timezone-aware."""
     return parse(value).replace(tzinfo=tzlocal())
 
+
 def main() -> None:
     """
     CLI entry point for jot.
