@@ -3,10 +3,12 @@ CLI entry with argument parser.
 """
 
 import argparse
+import datetime as dt
 from importlib.metadata import version
 from pathlib import Path
 
-from dateutil.parser import parse as date_time
+from dateutil.parser import parse
+from dateutil.tz import tzlocal
 
 from .files import (
     create_jot_file,
@@ -16,6 +18,11 @@ from .files import (
     write_to_config,
 )
 from .options import list_jottings, print_paths, search_jottings, upload_jottings
+
+
+def date_time(value: str) -> dt.datetime:
+    """Make input dates timezone-aware."""
+    return parse(value).replace(tzinfo=tzlocal())
 
 
 def main() -> None:
